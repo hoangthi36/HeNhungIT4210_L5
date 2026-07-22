@@ -45,6 +45,7 @@ extern "C" {
 /* Exported functions prototypes ---------------------------------------------*/
 void MX_TouchGFX_Init(void);
 void MX_TouchGFX_Process(void);
+void touchgfx_model_tick(void);
 
 /* USER CODE BEGIN EFP */
 

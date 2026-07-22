@@ -69,6 +69,13 @@ void MX_TouchGFX_Process(void)
 {
     // Calling forward to touchgfx_taskEntry in C++ domain
     touchgfx_taskEntry();
+    
+    /* USER CODE BEGIN MX_TouchGFX_Process */
+    
+    // Update model with sensor data every frame
+    touchgfx_model_tick();
+    
+    /* USER CODE END MX_TouchGFX_Process */
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

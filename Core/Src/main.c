@@ -99,11 +99,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  while (1)
-  {
-      BSP_LED_Toggle(LED3);
-      HAL_Delay(500);
-  }
 
   /* USER CODE END Init */
 
