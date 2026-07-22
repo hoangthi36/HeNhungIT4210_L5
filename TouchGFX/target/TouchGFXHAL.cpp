@@ -32,7 +32,10 @@ extern "C" void HAL_LTDC_LineEventCallback(LTDC_HandleTypeDef *hltdc)
 {
     HAL::getInstance()->vSync();
     OSWrappers::signalVSync();
-    HAL_LTDC_ProgramLineEvent(hltdc, 0U);
+
+    const uint32_t activeLine =
+        (LTDC->BPCR & LTDC_BPCR_AVBP_Msk) - 1U;
+    HAL_LTDC_ProgramLineEvent(hltdc, activeLine);
 }
 
 void TouchGFXHAL::initialize()

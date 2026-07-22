@@ -12,9 +12,6 @@ extern "C" void touchgfx_model_tick(void)
 
     if (app != NULL)
     {
-        FrontendApplication* frontend_app =
-            static_cast<FrontendApplication*>(app);
-
-        frontend_app->tickModel();
+        app->handleTickEvent();
     }
 }
