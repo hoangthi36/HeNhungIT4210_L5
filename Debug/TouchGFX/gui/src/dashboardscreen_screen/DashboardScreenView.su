@@ -1,0 +1,16 @@
+../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp:91:5:touchgfx::colortype::colortype(uint32_t)	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Drawable.hpp:293:13:int16_t touchgfx::Drawable::getWidth() const	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Drawable.hpp:315:18:virtual void touchgfx::Drawable::setX(int16_t)	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:104:18:virtual void touchgfx::Screen::afterTransition()	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:115:18:virtual void touchgfx::Screen::tearDownScreen()	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:144:18:virtual void touchgfx::Screen::handleTickEvent()	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:154:18:virtual void touchgfx::Screen::handleKeyEvent(uint8_t)	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp:79:10:void touchgfx::TextAreaWithOneWildcard::setWildcard1(const touchgfx::Unicode::UnicodeChar*)	16	static
+../TouchGFX/gui/include/gui/dashboardscreen_screen/DashboardScreenView.hpp:11:13:DashboardScreenView::~DashboardScreenView()	16	static
+../TouchGFX/gui/include/gui/dashboardscreen_screen/DashboardScreenView.hpp:11:13:virtual DashboardScreenView::~DashboardScreenView()	16	static
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenView.cpp:6:1:DashboardScreenView::DashboardScreenView()	16	static
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenView.cpp:10:6:virtual void DashboardScreenView::setupScreen()	48	static
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenView.cpp:114:6:virtual void DashboardScreenView::tearDownScreen()	16	static
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenView.cpp:119:6:void DashboardScreenView::updateData(const AppSnapshot_t&)	32	static
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenView.cpp:247:6:void DashboardScreenView::updateGasStatus(GasLevel_t)	88	static
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenView.cpp:321:6:void DashboardScreenView::updatePpmIndicator(uint16_t, uint16_t, uint16_t)	56	static

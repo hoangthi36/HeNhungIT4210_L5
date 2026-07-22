@@ -1,0 +1,17 @@
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:37:18:virtual void touchgfx::Presenter::activate()	16	static
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:47:18:virtual void touchgfx::Presenter::deactivate()	16	static
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:52:13:touchgfx::Presenter::~Presenter()	16	static
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:52:13:virtual touchgfx::Presenter::~Presenter()	16	static
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:58:5:touchgfx::Presenter::Presenter()	16	static
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:12:5:ModelListener::ModelListener()	16	static
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:14:13:ModelListener::~ModelListener()	16	static
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:14:13:virtual ModelListener::~ModelListener()	16	static
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:20:18:virtual void ModelListener::onAppDataUpdated(const AppSnapshot_t&)	16	static
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:23:18:virtual void ModelListener::onHardwareButton(AppUiEvent_t)	16	static
+../TouchGFX/gui/include/gui/graphscreen_screen/GraphScreenPresenter.hpp:28:13:GraphScreenPresenter::~GraphScreenPresenter()	16	static
+../TouchGFX/gui/include/gui/graphscreen_screen/GraphScreenPresenter.hpp:28:13:virtual GraphScreenPresenter::~GraphScreenPresenter()	16	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenPresenter.cpp:7:1:GraphScreenPresenter::GraphScreenPresenter(GraphScreenView&)	16	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenPresenter.cpp:14:6:virtual void GraphScreenPresenter::activate()	16	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenPresenter.cpp:18:6:virtual void GraphScreenPresenter::deactivate()	16	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenPresenter.cpp:22:6:virtual void GraphScreenPresenter::onAppDataUpdated(const AppSnapshot_t&)	16	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenPresenter.cpp:29:6:virtual void GraphScreenPresenter::onHardwareButton(AppUiEvent_t)	24	static

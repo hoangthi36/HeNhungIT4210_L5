@@ -1,0 +1,16 @@
+../Core/Src/app_backend.c:57:17:ADC_GetAverage	16	static
+../Core/Src/app_backend.c:68:13:Button_Process	24	static
+../Core/Src/app_backend.c:116:19:GasLevel_Classify	16	static
+../Core/Src/app_backend.c:135:13:Sensor_Process	40	static
+../Core/Src/app_backend.c:168:13:Led_Process	16	static
+../Core/Src/app_backend.c:237:13:RTC_Process	16	static
+../Core/Src/app_backend.c:257:20:GasLevel_ToString	16	static
+../Core/Src/app_backend.c:275:13:UART_Process	104	static
+../Core/Src/app_backend.c:311:13:Rfid_IsAdminUid	16	static
+../Core/Src/app_backend.c:332:13:Rfid_Process	32	static
+../Core/Src/app_backend.c:380:6:AppBackend_Init	8	static
+../Core/Src/app_backend.c:437:6:AppBackend_Tick	16	static
+../Core/Src/app_backend.c:475:6:AppBackend_GetSnapshot	24	static
+../Core/Src/app_backend.c:482:14:AppBackend_GetAndClearUiEvent	16	static
+../Core/Src/app_backend.c:490:6:AppBackend_SetThresholds	16	static
+../Core/Src/app_backend.c:518:6:AppBackend_SetSettingsVisible	16	static

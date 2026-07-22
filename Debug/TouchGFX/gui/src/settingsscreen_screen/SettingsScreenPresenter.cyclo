@@ -1,0 +1,20 @@
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:37:18:virtual void touchgfx::Presenter::activate()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:47:18:virtual void touchgfx::Presenter::deactivate()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:52:13:touchgfx::Presenter::~Presenter()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:52:13:virtual touchgfx::Presenter::~Presenter()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:58:5:touchgfx::Presenter::Presenter()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:12:5:ModelListener::ModelListener()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:14:13:ModelListener::~ModelListener()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:14:13:virtual ModelListener::~ModelListener()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:20:18:virtual void ModelListener::onAppDataUpdated(const AppSnapshot_t&)	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:23:18:virtual void ModelListener::onHardwareButton(AppUiEvent_t)	1
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:10:1:SettingsScreenPresenter::SettingsScreenPresenter(SettingsScreenView&)	1
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:16:6:virtual void SettingsScreenPresenter::activate()	1
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:20:6:virtual void SettingsScreenPresenter::deactivate()	1
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:24:6:virtual void SettingsScreenPresenter::onAppDataUpdated(const AppSnapshot_t&)	1
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:30:6:virtual void SettingsScreenPresenter::onHardwareButton(AppUiEvent_t)	2
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:39:6:bool SettingsScreenPresenter::saveThreshold(uint16_t, uint16_t)	1
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:48:6:void SettingsScreenPresenter::setSettingsVisible(bool)	1
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:54:6:void SettingsScreenPresenter::closeSettings()	1
+../TouchGFX/gui/include/gui/settingsscreen_screen/SettingsScreenPresenter.hpp:11:7:SettingsScreenPresenter::~SettingsScreenPresenter()	1
+../TouchGFX/gui/include/gui/settingsscreen_screen/SettingsScreenPresenter.hpp:11:7:virtual SettingsScreenPresenter::~SettingsScreenPresenter()	1

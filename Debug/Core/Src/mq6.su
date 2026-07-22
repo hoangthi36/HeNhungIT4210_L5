@@ -1,0 +1,2 @@
+../Core/Src/mq6.c:30:14:MQ6_Clamp	24	static
+../Core/Src/mq6.c:43:6:MQ6_Process	32	static

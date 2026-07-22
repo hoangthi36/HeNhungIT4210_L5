@@ -1,0 +1,17 @@
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:37:18:virtual void touchgfx::Presenter::activate()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:47:18:virtual void touchgfx::Presenter::deactivate()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:52:13:touchgfx::Presenter::~Presenter()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:52:13:virtual touchgfx::Presenter::~Presenter()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:58:5:touchgfx::Presenter::Presenter()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:12:5:ModelListener::ModelListener()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:14:13:ModelListener::~ModelListener()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:14:13:virtual ModelListener::~ModelListener()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:20:18:virtual void ModelListener::onAppDataUpdated(const AppSnapshot_t&)	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:23:18:virtual void ModelListener::onHardwareButton(AppUiEvent_t)	1
+../TouchGFX/gui/include/gui/dashboardscreen_screen/DashboardScreenPresenter.hpp:28:13:DashboardScreenPresenter::~DashboardScreenPresenter()	1
+../TouchGFX/gui/include/gui/dashboardscreen_screen/DashboardScreenPresenter.hpp:28:13:virtual DashboardScreenPresenter::~DashboardScreenPresenter()	1
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenPresenter.cpp:7:6:virtual void DashboardScreenPresenter::onAppDataUpdated(const AppSnapshot_t&)	1
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenPresenter.cpp:13:6:virtual void DashboardScreenPresenter::onHardwareButton(AppUiEvent_t)	3
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenPresenter.cpp:59:1:DashboardScreenPresenter::DashboardScreenPresenter(DashboardScreenView&)	1
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenPresenter.cpp:65:6:virtual void DashboardScreenPresenter::activate()	1
+../TouchGFX/gui/src/dashboardscreen_screen/DashboardScreenPresenter.cpp:70:6:virtual void DashboardScreenPresenter::deactivate()	1
