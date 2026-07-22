@@ -7,14 +7,14 @@
  */
 extern "C" void touchgfx_model_tick(void)
 {
-    touchgfx::Application* app = 
+    touchgfx::Application* app =
         touchgfx::Application::getInstance();
-    
+
     if (app != NULL)
     {
-        FrontendApplication* frontend_app = 
+        FrontendApplication* frontend_app =
             static_cast<FrontendApplication*>(app);
-        
-        frontend_app->getModel().tick();
+
+        frontend_app->tickModel();
     }
 }

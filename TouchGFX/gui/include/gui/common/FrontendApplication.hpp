@@ -27,6 +27,11 @@ public:
             handleTickEvent();
     }
 
+    void tickModel()
+    {
+        model.tick();
+    }
+
     /*
      * Các hàm navigation tự định nghĩa.
      *
