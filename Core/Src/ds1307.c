@@ -1,5 +1,9 @@
 #include "ds1307.h"
 #include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+
+extern UART_HandleTypeDef huart1;
 #define DS1307_ADDRESS        (0x68U << 1)
 #define DS1307_TIME_REGISTER  0x00U
 static uint8_t BCD_ToDecimal(uint8_t value)
@@ -24,20 +28,52 @@ bool DS1307_IsReady(void)
 }
 bool DS1307_ReadTime(DS1307_Time_t *time)
 {
+	HAL_UART_Transmit(&huart1,
+	                  (uint8_t*)"ENTER READ\r\n",
+	                  12,
+	                  100);
     uint8_t data[7];
+    HAL_StatusTypeDef status;
+    char msg[128];
     if (time == NULL) {
         return false;
     }
-    if (HAL_I2C_Mem_Read(
-            &hi2c3,
-            DS1307_ADDRESS,
-            DS1307_TIME_REGISTER,
-            I2C_MEMADD_SIZE_8BIT,
-			data,
-			sizeof(data),
-			100U) != HAL_OK) {
-    	return false;
-}
+    status = HAL_I2C_Mem_Read(
+                &hi2c3,
+                DS1307_ADDRESS,
+                DS1307_TIME_REGISTER,
+                I2C_MEMADD_SIZE_8BIT,
+                data,
+                sizeof(data),
+                100U);
+    sprintf(msg,
+            "STATUS=%d ERR=%lu\r\n",
+            status,
+            HAL_I2C_GetError(&hi2c3));
+    HAL_UART_Transmit(
+            &huart1,
+            (uint8_t *)msg,
+            strlen(msg),
+            100);
+    if(status != HAL_OK)
+    {
+        return false;
+    }
+    sprintf(msg,
+            "RAW=%02X %02X %02X %02X %02X %02X %02X\r\n",
+            data[0],
+            data[1],
+            data[2],
+            data[3],
+            data[4],
+            data[5],
+            data[6]);
+
+    HAL_UART_Transmit(
+            &huart1,
+            (uint8_t *)msg,
+            strlen(msg),
+            100);
 time->second =
 BCD_ToDecimal(data[0] & 0x7FU);
 time->minute =
@@ -52,6 +88,20 @@ time->month =
 BCD_ToDecimal(data[5] & 0x1FU);
 time->year =
 BCD_ToDecimal(data[6]);
+sprintf(msg,
+        "TIME=%02u:%02u:%02u %02u/%02u/%02u\r\n",
+        time->hour,
+        time->minute,
+        time->second,
+        time->date,
+        time->month,
+        time->year);
+
+HAL_UART_Transmit(
+        &huart1,
+        (uint8_t *)msg,
+        strlen(msg),
+        100);
 return true;
 }
 bool DS1307_SetTime(const DS1307_Time_t *time)

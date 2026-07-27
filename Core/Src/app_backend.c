@@ -1,4 +1,4 @@
-	#include "app_backend.h"
+#include "app_backend.h"
 
 #include "mfrc522.h"
 #include <string.h>
@@ -7,8 +7,11 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdio.h>
+
 
 #define ADC_SAMPLE_COUNT 32U
+extern UART_HandleTypeDef huart1;
 
 static uint16_t adc_dma_buffer[ADC_SAMPLE_COUNT];
 
@@ -20,6 +23,7 @@ static bool settings_visible;
 static uint32_t sensor_tick;
 static uint32_t rtc_tick;
 static uint32_t led_tick;
+
 
 static char uart_buffer[160];
 /*
@@ -238,20 +242,101 @@ static void RTC_Process(void)
 {
     DS1307_Time_t time;
 
-    app_snapshot.rtc_ok =
-        DS1307_ReadTime(&time);
+    char msg[128];
 
-    if (!app_snapshot.rtc_ok) {
+    HAL_StatusTypeDef st =
+        HAL_I2C_IsDeviceReady(
+            &hi2c3,
+            (0x68 << 1),
+            3,
+            100);
+
+    sprintf(msg,
+            "READY=%d ERR=%lu\r\n",
+            st,
+            HAL_I2C_GetError(&hi2c3));
+
+    HAL_UART_Transmit(
+        &huart1,
+        (uint8_t*)msg,
+        strlen(msg),
+        100);
+
+    if(st != HAL_OK)
+    {
+        HAL_UART_Transmit(
+            &huart1,
+            (uint8_t*)"RETURN 1\r\n",
+            10,
+            100);
+
         return;
     }
 
-    app_snapshot.hour = time.hour;
+    HAL_UART_Transmit(
+        &huart1,
+        (uint8_t*)"POINT A\r\n",
+        9,
+        100);
+
+    HAL_UART_Transmit(
+        &huart1,
+        (uint8_t*)"RTC READY\r\n",
+        11,
+        100);
+
+    app_snapshot.rtc_ok =
+        DS1307_ReadTime(&time);
+    HAL_UART_Transmit(
+        &huart1,
+        (uint8_t*)"POINT B\r\n",
+        9,
+        100);
+
+    if(!app_snapshot.rtc_ok)
+    {
+        HAL_UART_Transmit(
+            &huart1,
+            (uint8_t*)"RTC READ FAIL\r\n",
+            15,
+            100);
+
+        HAL_UART_Transmit(
+            &huart1,
+            (uint8_t*)"POINT C\r\n",
+            9,
+            100);
+        return;
+    }
+
+    sprintf(msg,
+            "RTC %02u:%02u:%02u %02u/%02u/%02u\r\n",
+            time.hour,
+            time.minute,
+            time.second,
+            time.date,
+            time.month,
+            time.year);
+
+    HAL_UART_Transmit(
+        &huart1,
+        (uint8_t*)msg,
+        strlen(msg),
+        100);
+
+    app_snapshot.hour   = time.hour;
     app_snapshot.minute = time.minute;
     app_snapshot.second = time.second;
 
-    app_snapshot.date = time.date;
+    app_snapshot.date  = time.date;
     app_snapshot.month = time.month;
-    app_snapshot.year = time.year;
+    app_snapshot.year  = time.year;
+
+    HAL_UART_Transmit(
+        &huart1,
+        (uint8_t*)"POINT D\r\n",
+        9,
+        100);
 }
 
 static const char *GasLevel_ToString(GasLevel_t level)
@@ -432,10 +517,32 @@ void AppBackend_Init(void)
      * Đọc RTC lần đầu.
      */
     RTC_Process();
+
 }
 
 void AppBackend_Tick(uint32_t now_ms)
 {
+    static uint32_t tickCount = 0;
+    static uint32_t lastPrint = 0;
+    char debugMsg[32];
+
+    tickCount++;
+
+    if ((now_ms - lastPrint) >= 1000U)
+    {
+        lastPrint = now_ms;
+
+        int len = sprintf(debugMsg,
+                          "Tick=%lu\r\n",
+                          tickCount);
+
+        HAL_UART_Transmit(&huart1,
+                          (uint8_t *)debugMsg,
+                          len,
+                          100);
+
+        tickCount = 0;
+    }
     /*
      * Xử lý nút B1.
      */

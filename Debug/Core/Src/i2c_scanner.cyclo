@@ -1,0 +1,2 @@
+../Core/Src/i2c_scanner.c:6:13:Scanner_Print	3
+../Core/Src/i2c_scanner.c:21:6:I2C_Scanner_Run	6

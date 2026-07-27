@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "i2c_scanner.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -120,6 +120,10 @@ int main(void)
   MX_DMA2D_Init();
   MX_LTDC_Init();
   MX_TouchGFX_Init();
+
+  /* USER CODE BEGIN 2 */
+  I2C_Scanner_Run(&hi2c3, &huart1);
+  /* USER CODE END 2 */
 
   AppBackend_Init();
 
