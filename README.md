@@ -43,11 +43,9 @@ Ngưỡng mặc định của project:
 ---
 
 ## 3. Kiến trúc hệ thống
-
+![Ảnh kiến trúc](anh_kien_truc.png)
 ```mermaid
 flowchart LR
-![Ảnh kiến trúc](anh_kien_truc.png)
-
     MQ6[MQ-6] -->|Analog| ADC[ADC + DMA<br/>32 mẫu]
     RTC[DS1307] -->|I2C| BACKEND[app_backend]
     RFID[MFRC522] -->|SPI4| BACKEND
@@ -91,10 +89,10 @@ Các chân cụ thể phải đối chiếu với file `.ioc` đang dùng. Khôn
 ---
 
 ## 5. Luồng hoạt động
+![Ảnh luồng chạy](anh_luong_chay.png)
 
 ```mermaid
 stateDiagram-v2
-![Ảnh luồng chạy](anh_luong_chay.png)
 
     [*] --> KhoiDong
     KhoiDong --> LamNong: Khởi tạo ngoại vi
