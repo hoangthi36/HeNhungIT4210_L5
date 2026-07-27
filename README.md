@@ -232,5 +232,5 @@ MQ-6 yêu cầu thời gian tiền nung ban đầu dài; tài liệu Winsen nêu
 - `[Hoàng Văn Thi – 20239753]`
 - `[Cao Tiến Dũng – 20239754]`
 - `[Nguyễn Vũ Duy Anh – 20239755]`
-- `[Cao Tiến Dũng – 20239754]`
+- `[Lê Thành Hưng – 20235341]`
 - `[GVHD - Ths Nguyễn Đức Tiến]`
