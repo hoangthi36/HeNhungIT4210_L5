@@ -133,7 +133,7 @@ Trong lúc người dùng mở Settings hoặc quét RFID, backend vẫn phải 
 8. Quan sát Dashboard, đồ thị, RTC, RFID và dữ liệu UART.
 
 Luồng dữ liệu : 
-![Ảnh luồng dữ liệu](anh_luong_du_lieu.png)
+<img src="anh_luong_du_lieu.png" alt="Ảnh luồng dữ liệu">
 
 ---
 
