@@ -46,6 +46,8 @@ Ngưỡng mặc định của project:
 
 ```mermaid
 flowchart LR
+![Ảnh kiến trúc](anh_kien_truc.png)
+
     MQ6[MQ-6] -->|Analog| ADC[ADC + DMA<br/>32 mẫu]
     RTC[DS1307] -->|I2C| BACKEND[app_backend]
     RFID[MFRC522] -->|SPI4| BACKEND
@@ -92,6 +94,8 @@ Các chân cụ thể phải đối chiếu với file `.ioc` đang dùng. Khôn
 
 ```mermaid
 stateDiagram-v2
+![Ảnh luồng chạy](anh_luong_chay.png)
+
     [*] --> KhoiDong
     KhoiDong --> LamNong: Khởi tạo ngoại vi
     LamNong --> DoLuong: Cảm biến đủ ổn định
@@ -130,7 +134,8 @@ Trong lúc người dùng mở Settings hoặc quét RFID, backend vẫn phải 
 7. Mở cổng COM đúng baud rate, data bits, parity và stop bits đã cấu hình trong CubeMX.
 8. Quan sát Dashboard, đồ thị, RTC, RFID và dữ liệu UART.
 
-Không chỉnh các file có hậu tố `Base`. Chỉ chỉnh các lớp View/Presenter/Model do người dùng mở rộng và các file backend/driver.
+Luồng dữ liệu : 
+![Ảnh luồng dữ liệu](anh_luong_du_lieu.png)
 
 ---
 
@@ -209,23 +214,12 @@ MQ-6 yêu cầu thời gian tiền nung ban đầu dài; tài liệu Winsen nêu
 - Đo thời gian từ khi tín hiệu ADC vượt ngưỡng đến khi LED đổi trạng thái.
 - Ghi log min/mean/max chu kỳ backend để phát hiện jitter.
 
-> **[CHÈN ẢNH THỰC TẾ 03 – Log UART khi chạy ổn định]**
+> **[ẢNH Log UART khi chạy ổn định]**
 
-> **[CHÈN ẢNH THỰC TẾ 04 – Màn hình Graph và ba vùng cảnh báo]**
-
----
-
-## 9. Hạn chế và hướng phát triển
-
-- Công thức ppm cần hiệu chuẩn bằng khí chuẩn; không nên chỉ lấy đường cong datasheet bằng mắt.
-- Nên bổ sung kiểm tra đứt dây, ADC kẹt, cảm biến chưa sẵn sàng và quá dải.
-- Có thể thêm watchdog, lưu cấu hình vào Flash/EEPROM và CRC.
-- Có thể bổ sung cảm biến nhiệt độ/độ ẩm để bù môi trường.
-- Với ứng dụng an toàn thật, cần dùng đầu dò/thiết bị đã chứng nhận và thiết kế fail-safe.
-
-Tài liệu chi tiết: [`PROJECT_DOCS.md`](PROJECT_DOCS.md)
+> **[ẢNH Màn hình Graph và ba vùng cảnh báo]**
 
 ---
+
 
 ## 10. Tài liệu tham khảo
 
