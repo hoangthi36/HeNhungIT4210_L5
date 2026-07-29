@@ -47,7 +47,6 @@ MQ-6 (AO) → Cầu chia áp (Rtop/Rbottom) → ADCraw → VADC = ADCraw × VREF
 → Hiển thị An toàn / Cảnh báo / Nguy hiểm
 
 ## 3. Kiến trúc hệ thống
-![Ảnh kiến trúc](anh_kien_truc.png)
 ```mermaid
 flowchart LR
     MQ6[MQ-6] -->|Analog| ADC[ADC + DMA<br/>32 mẫu]
@@ -84,36 +83,10 @@ TouchGFX sử dụng mô hình **Model–View–Presenter**. Phần đọc phầ
 
 Các chân cụ thể phải đối chiếu với file `.ioc` đang dùng. Không tự đổi chân trong tài liệu mà chưa kiểm tra lại CubeMX và sơ đồ kit.
 
-> **[CHÈN ẢNH THỰC TẾ 01 – Toàn bộ mạch đã lắp]**  
-> Gợi ý tên ảnh: `docs/images/hardware-overview.jpg`
-
-> **[CHÈN ẢNH THỰC TẾ 02 – Màn hình Dashboard đang chạy]**  
-> Gợi ý tên ảnh: `docs/images/dashboard-running.jpg`
-
 ---
 
 ## 5. Luồng hoạt động
 ![Ảnh luồng chạy](anh_luong_chay.png)
-
-```mermaid
-stateDiagram-v2
-
-    [*] --> KhoiDong
-    KhoiDong --> LamNong: Khởi tạo ngoại vi
-    LamNong --> DoLuong: Cảm biến đủ ổn định
-    DoLuong --> AnToan: ppm < T1
-    DoLuong --> CanhBao: T1 <= ppm < T2
-    DoLuong --> NguyHiem: ppm >= T2
-    AnToan --> DoLuong
-    CanhBao --> DoLuong
-    NguyHiem --> DoLuong
-
-    DoLuong --> CaiDat: Mở Settings
-    CaiDat --> ChoRFID: Chưa xác thực
-    ChoRFID --> ChoRFID: Sai/không có thẻ
-    ChoRFID --> NhapNguong: Thẻ hợp lệ
-    NhapNguong --> DoLuong: Save/Cancel
-```
 
 Điều kiện lưu ngưỡng:
 
@@ -203,24 +176,6 @@ MQ-6 yêu cầu thời gian tiền nung ban đầu dài; tài liệu Winsen nêu
 
 ---
 
-## 8. Kiểm thử tối thiểu
-
-- ADC raw thay đổi khi điện áp AO thay đổi.
-- Không vượt quá điện áp đầu vào ADC của STM32.
-- UART đúng baud rate và không còn ký tự rác.
-- RTC tiếp tục chạy khi reset MCU.
-- RFID đúng/sai thẻ được phân biệt.
-- `T1 < T2`, không lưu giá trị ngoài 0–9999.
-- Mở Graph/Settings không làm dừng đo.
-- Khi giả lập nồng độ qua ngưỡng, LED và giao diện đổi trạng thái đúng.
-- Đo thời gian từ khi tín hiệu ADC vượt ngưỡng đến khi LED đổi trạng thái.
-- Ghi log min/mean/max chu kỳ backend để phát hiện jitter.
-
-> **[ẢNH Log UART khi chạy ổn định]**
-
-> **[ẢNH Màn hình Graph và ba vùng cảnh báo]**
-
----
 
 
 ## 10. Tài liệu tham khảo
