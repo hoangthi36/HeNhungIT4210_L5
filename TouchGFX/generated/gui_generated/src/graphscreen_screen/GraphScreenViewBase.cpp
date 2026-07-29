@@ -152,8 +152,8 @@ GraphScreenViewBase::GraphScreenViewBase()
     graphPpm.addDataPoint(862.52715f);
     add(graphPpm);
 
-    lineThreshold1.setPosition(14, 54, 324, 66);
-    lineThreshold1Painter.setColor(touchgfx::Color::getColorFromRGB(199, 74, 74));
+    lineThreshold1.setPosition(9, 155, 324, 66);
+    lineThreshold1Painter.setColor(touchgfx::Color::getColorFromRGB(27, 161, 41));
     lineThreshold1.setPainter(lineThreshold1Painter);
     lineThreshold1.setStart(4.9f, 5.0f);
     lineThreshold1.setEnd(300, 7);
@@ -161,8 +161,8 @@ GraphScreenViewBase::GraphScreenViewBase()
     lineThreshold1.setLineEndingStyle(touchgfx::Line::BUTT_CAP_ENDING);
     add(lineThreshold1);
 
-    lineThreshold2.setPosition(14, 143, 350, 50);
-    lineThreshold2Painter.setColor(touchgfx::Color::getColorFromRGB(46, 140, 51));
+    lineThreshold2.setPosition(9, 51, 350, 50);
+    lineThreshold2Painter.setColor(touchgfx::Color::getColorFromRGB(224, 22, 43));
     lineThreshold2.setPainter(lineThreshold2Painter);
     lineThreshold2.setStart(5, 5);
     lineThreshold2.setEnd(300, 7);

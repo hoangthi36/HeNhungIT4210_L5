@@ -197,14 +197,14 @@
           {
             "Type": "Line",
             "Name": "lineThreshold1",
-            "X": 14,
-            "Y": 54,
+            "X": 9,
+            "Y": 155,
             "Width": 324,
             "Height": 66,
             "Color": {
-              "Red": 199,
-              "Green": 74,
-              "Blue": 74
+              "Red": 27,
+              "Green": 161,
+              "Blue": 41
             },
             "StartX": 4.9,
             "StartY": 5.0,
@@ -216,14 +216,14 @@
           {
             "Type": "Line",
             "Name": "lineThreshold2",
-            "X": 14,
-            "Y": 143,
+            "X": 9,
+            "Y": 51,
             "Width": 350,
             "Height": 50,
             "Color": {
-              "Red": 46,
-              "Green": 140,
-              "Blue": 51
+              "Red": 224,
+              "Green": 22,
+              "Blue": 43
             },
             "StartX": 5.0,
             "StartY": 5.0,

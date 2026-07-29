@@ -17,8 +17,6 @@
 #define BUTTON_SETTINGS_MS 3000U
 extern UART_HandleTypeDef huart1;
 
-static volatile uint16_t adc_dma_buffer[ADC_SAMPLE_COUNT];
-
 static AppSnapshot_t app_snapshot;
 static AppUiEvent_t pending_ui_event;
 
@@ -51,15 +49,37 @@ static uint32_t rfid_tick = 0U;
  */
 static bool rfid_authorization_latched = false;
 
-static uint16_t ADC_GetAverage(void)
+static bool ADC_GetAverage(uint16_t *average)
 {
-    uint32_t sum = 0U;
-
-    for (uint32_t i = 0U; i < ADC_SAMPLE_COUNT; i++) {
-        sum += adc_dma_buffer[i];
+    if (average == NULL) {
+        return false;
     }
 
-    return (uint16_t)(sum / ADC_SAMPLE_COUNT);
+    uint32_t sum = 0U;
+
+    /*
+     * Mỗi chu kỳ cảm biến phải bắt đầu một lượt chuyển đổi mới.
+     * Không dùng lại buffer DMA được tạo lúc khởi động vì khi DMA
+     * dừng/lỗi, buffer vẫn giữ nguyên mẫu cũ và snapshot sẽ trông
+     * như bị đóng băng dù backend vẫn đang chạy.
+     */
+    if (HAL_ADC_Start(&hadc1) != HAL_OK) {
+        return false;
+    }
+
+    for (uint32_t i = 0U; i < ADC_SAMPLE_COUNT; i++) {
+        if (HAL_ADC_PollForConversion(&hadc1, 10U) != HAL_OK) {
+            (void)HAL_ADC_Stop(&hadc1);
+            return false;
+        }
+
+        sum += HAL_ADC_GetValue(&hadc1);
+    }
+
+    (void)HAL_ADC_Stop(&hadc1);
+
+    *average = (uint16_t)(sum / ADC_SAMPLE_COUNT);
+    return true;
 }
 
 static void Button_Process(uint32_t now_ms)
@@ -127,8 +147,14 @@ static GasLevel_t GasLevel_Classify(
 
 static void Sensor_Process(void)
 {
-    const uint16_t adc_average =
-        ADC_GetAverage();
+    uint16_t adc_average = 0U;
+
+    if (!ADC_GetAverage(&adc_average)) {
+        app_snapshot.mq6_ok = false;
+        app_snapshot.ppm = 0U;
+        app_snapshot.gas_level = GAS_LEVEL_SENSOR_ERROR;
+        return;
+    }
 
     MQ6_Result_t result;
     MQ6_Process(adc_average, &result);
@@ -494,32 +520,26 @@ void AppBackend_Init(void)
     (void)MFRC522_Init();
 
     /*
-     * Khởi động ADC DMA cho MQ6.
-     */
-    HAL_ADC_Start_DMA(
-        &hadc1,
-        (uint32_t *)adc_dma_buffer,
-        ADC_SAMPLE_COUNT);
-
-    /*
-     * DS1307 mới hoặc mất pin backup thường có CH=1 và chưa chạy.
-     * Chỉ ghi mốc mặc định khi dữ liệu trong RTC đang dừng/không hợp lệ.
-     * Các lần khởi động sau giữ nguyên thời gian đã có trong DS1307.
+     * Áp dụng mốc 29/07/2026 09:43:00 đúng một lần.
+     * Marker được lưu trong RAM dự phòng của DS1307 nên các lần reset
+     * sau sẽ giữ thời gian đang chạy, không quay lại mốc này.
      */
     {
         const DS1307_Time_t initial_time = {
             .second = 0U,
-            .minute = 32U,
+            .minute = 43U,
             .hour = 9U,
-            .day_of_week = 1U,
-            .date = 27U,
+            .day_of_week = 4U,
+            .date = 29U,
             .month = 7U,
             .year = 26U
         };
         bool rtc_was_initialized = false;
 
         if (DS1307_IsReady() &&
-            DS1307_InitializeIfNeeded(&initial_time, &rtc_was_initialized)) {
+            DS1307_ApplyTimePresetOnce(&initial_time,
+                                       0x01U,
+                                       &rtc_was_initialized)) {
             const char *rtc_message = rtc_was_initialized
                 ? "RTC INITIALIZED\r\n"
                 : "RTC TIME PRESERVED\r\n";

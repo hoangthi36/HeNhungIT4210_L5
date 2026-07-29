@@ -6,6 +6,7 @@
 extern UART_HandleTypeDef huart1;
 #define DS1307_ADDRESS        (0x68U << 1)
 #define DS1307_TIME_REGISTER  0x00U
+#define DS1307_RAM_MARKER_REGISTER 0x08U
 static uint8_t BCD_ToDecimal(uint8_t value)
 {
     return (uint8_t)(
@@ -175,6 +176,61 @@ return HAL_I2C_Mem_Write(
        data,
        sizeof(data),
        100U) == HAL_OK;
+}
+
+bool DS1307_ApplyTimePresetOnce(const DS1307_Time_t *time,
+                               uint8_t preset_id,
+                               bool *was_applied)
+{
+    const uint8_t expected_marker[5] = {
+        0x47U, /* G */
+        0x41U, /* A */
+        0x53U, /* S */
+        0x52U, /* R */
+        preset_id
+    };
+    uint8_t stored_marker[sizeof(expected_marker)] = {0U};
+
+    if ((time == NULL) || (was_applied == NULL)) {
+        return false;
+    }
+
+    *was_applied = false;
+
+    if (HAL_I2C_Mem_Read(
+            &hi2c3,
+            DS1307_ADDRESS,
+            DS1307_RAM_MARKER_REGISTER,
+            I2C_MEMADD_SIZE_8BIT,
+            stored_marker,
+            sizeof(stored_marker),
+            100U) != HAL_OK) {
+        return false;
+    }
+
+    if (memcmp(stored_marker,
+               expected_marker,
+               sizeof(expected_marker)) == 0) {
+        return true;
+    }
+
+    if (!DS1307_SetTime(time)) {
+        return false;
+    }
+
+    if (HAL_I2C_Mem_Write(
+            &hi2c3,
+            DS1307_ADDRESS,
+            DS1307_RAM_MARKER_REGISTER,
+            I2C_MEMADD_SIZE_8BIT,
+            (uint8_t *)expected_marker,
+            sizeof(expected_marker),
+            100U) != HAL_OK) {
+        return false;
+    }
+
+    *was_applied = true;
+    return true;
 }
 
 bool DS1307_InitializeIfNeeded(const DS1307_Time_t *initial_time,

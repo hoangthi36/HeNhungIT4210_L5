@@ -5,9 +5,12 @@
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:115:18:virtual void touchgfx::Screen::tearDownScreen()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:144:18:virtual void touchgfx::Screen::handleTickEvent()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:154:18:virtual void touchgfx::Screen::handleKeyEvent(uint8_t)	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/AbstractDataGraph.hpp:507:18:virtual void touchgfx::AbstractDataGraph::setGraphRangeY(int, int)	56	static
 ../TouchGFX/gui/include/gui/graphscreen_screen/GraphScreenView.hpp:11:13:GraphScreenView::~GraphScreenView()	16	static
 ../TouchGFX/gui/include/gui/graphscreen_screen/GraphScreenView.hpp:11:13:virtual GraphScreenView::~GraphScreenView()	16	static
-../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:3:1:GraphScreenView::GraphScreenView()	16	static
-../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:7:6:virtual void GraphScreenView::setupScreen()	24	static
-../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:19:6:virtual void GraphScreenView::tearDownScreen()	16	static
-../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:24:6:void GraphScreenView::updateGraph(const AppSnapshot_t&)	64	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:10:5:int {anonymous}::calculateGraphMaximum(const AppSnapshot_t&)	24	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:44:5:int {anonymous}::valueToScreenY(uint16_t, int, int, int)	32	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:67:1:GraphScreenView::GraphScreenView()	16	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:73:6:virtual void GraphScreenView::setupScreen()	24	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:92:6:virtual void GraphScreenView::tearDownScreen()	16	static
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:97:6:void GraphScreenView::updateGraph(const AppSnapshot_t&)	64	static

@@ -14,6 +14,8 @@ public:
     void updateGraph(
         const AppSnapshot_t& snapshot);
 protected:
+    uint16_t sampleTick;
+    int graphRangeMax;
 };
 
 #endif // GRAPHSCREENVIEW_HPP

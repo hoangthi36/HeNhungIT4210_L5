@@ -22,6 +22,9 @@ typedef struct
 bool DS1307_IsReady(void);
 bool DS1307_ReadTime(DS1307_Time_t *time);
 bool DS1307_SetTime(const DS1307_Time_t *time);
+bool DS1307_ApplyTimePresetOnce(const DS1307_Time_t *time,
+                               uint8_t preset_id,
+                               bool *was_applied);
 bool DS1307_InitializeIfNeeded(const DS1307_Time_t *initial_time,
                               bool *was_initialized);
 
