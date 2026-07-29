@@ -233,6 +233,10 @@ MQ-6 yêu cầu thời gian tiền nung ban đầu dài; tài liệu Winsen nêu
 
 ## 11. Authors
 
+- `[Hoàng Văn Thi – 20239753]`
+- `[Cao Tiến Dũng – 20239754]`
+- `[Nguyễn Vũ Duy Anh – 20239755]`
+- `[Cao Tiến Dũng – 20239754]`
 - `[GVHD - Ths Nguyễn Đức Tiến]`
 - `[Hoàng Văn Thi – 20239753 - Tìm hiểu đề tài triển khai kiến trúc]`
 - `[Cao Tiến Dũng – 20239754 - Lắp mạch phần cứng ]`
