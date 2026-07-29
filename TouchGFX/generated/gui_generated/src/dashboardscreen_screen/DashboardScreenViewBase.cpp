@@ -11,54 +11,54 @@ DashboardScreenViewBase::DashboardScreenViewBase()
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     add(__background);
 
-    txtPpm.setXY(114, 48);
-    txtPpm.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtPpm.setXY(119, 44);
+    txtPpm.setColor(touchgfx::Color::getColorFromRGB(222, 62, 62));
     txtPpm.setLinespacing(0);
     txtPpm.setTypedText(touchgfx::TypedText(T___SINGLEUSE_8HLL));
     add(txtPpm);
 
     txtAdcVoltage.setXY(75, 91);
-    txtAdcVoltage.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtAdcVoltage.setColor(touchgfx::Color::getColorFromRGB(230, 76, 76));
     txtAdcVoltage.setLinespacing(0);
     txtAdcVoltage.setTypedText(touchgfx::TypedText(T___SINGLEUSE_GRK7));
     add(txtAdcVoltage);
 
     txtMq6Voltage.setPosition(75, 129, 110, 23);
-    txtMq6Voltage.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtMq6Voltage.setColor(touchgfx::Color::getColorFromRGB(227, 82, 82));
     txtMq6Voltage.setLinespacing(0);
     txtMq6Voltage.setTypedText(touchgfx::TypedText(T___SINGLEUSE_DGZY));
     add(txtMq6Voltage);
 
     txtTime.setXY(198, 0);
-    txtTime.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtTime.setColor(touchgfx::Color::getColorFromRGB(217, 46, 46));
     txtTime.setLinespacing(0);
     txtTime.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NSNH));
     add(txtTime);
 
     txtDate.setXY(0, 0);
-    txtDate.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtDate.setColor(touchgfx::Color::getColorFromRGB(232, 58, 58));
     txtDate.setLinespacing(0);
     txtDate.setTypedText(touchgfx::TypedText(T___SINGLEUSE_3SYO));
     add(txtDate);
 
-    boxSafe.setPosition(0, 184, 50, 50);
+    boxSafe.setPosition(0, 194, 211, 40);
     boxSafe.setColor(touchgfx::Color::getColorFromRGB(18, 204, 37));
     add(boxSafe);
 
-    boxWarning.setPosition(148, 190, 50, 50);
+    boxWarning.setPosition(0, 194, 198, 40);
     boxWarning.setColor(touchgfx::Color::getColorFromRGB(227, 97, 32));
     add(boxWarning);
 
-    boxDanger.setPosition(242, 184, 50, 50);
+    boxDanger.setPosition(0, 201, 222, 33);
     boxDanger.setColor(touchgfx::Color::getColorFromRGB(199, 10, 51));
     add(boxDanger);
 
-    indicatorCurrent.setPosition(64, 190, 50, 50);
+    indicatorCurrent.setPosition(64, 184, 50, 50);
     indicatorCurrent.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     add(indicatorCurrent);
 
     txtStatus.setXY(75, 160);
-    txtStatus.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtStatus.setColor(touchgfx::Color::getColorFromRGB(224, 25, 25));
     txtStatus.setLinespacing(0);
     txtStatus.setTypedText(touchgfx::TypedText(T___SINGLEUSE_A0P6));
     add(txtStatus);

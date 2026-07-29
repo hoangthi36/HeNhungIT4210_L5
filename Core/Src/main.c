@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "i2c_scanner.h"
+#include "lcd_ili9341.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -122,6 +123,23 @@ int main(void)
   MX_TouchGFX_Init();
 
   /* USER CODE BEGIN 2 */
+  if (!LCD_ILI9341_Init())
+  {
+    const char lcd_error[] = "LCD ILI9341 INIT FAILED\r\n";
+    HAL_UART_Transmit(&huart1,
+                      (uint8_t *)lcd_error,
+                      sizeof(lcd_error) - 1U,
+                      100U);
+    Error_Handler();
+  }
+  else
+  {
+    const char lcd_ok[] = "LCD ILI9341 INIT OK\r\n";
+    HAL_UART_Transmit(&huart1,
+                      (uint8_t *)lcd_ok,
+                      sizeof(lcd_ok) - 1U,
+                      100U);
+  }
   I2C_Scanner_Run(&hi2c3, &huart1);
   /* USER CODE END 2 */
 
@@ -135,6 +153,11 @@ int main(void)
 
     MX_TouchGFX_Process();
     /* USER CODE BEGIN 3 */
+    /*
+     * Backend phải chạy độc lập với nhịp render/VSYNC của TouchGFX.
+     * Các hàm bên trong tự giới hạn chu kỳ bằng HAL_GetTick().
+     */
+    AppBackend_Tick(HAL_GetTick());
   }
   /* USER CODE END 3 */
 }
@@ -375,14 +398,14 @@ static void MX_LTDC_Init(void)
   hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AL;
   hltdc.Init.DEPolarity = LTDC_DEPOLARITY_AL;
   hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
-  hltdc.Init.HorizontalSync = 7;
-  hltdc.Init.VerticalSync = 3;
-  hltdc.Init.AccumulatedHBP = 14;
-  hltdc.Init.AccumulatedVBP = 5;
-  hltdc.Init.AccumulatedActiveW = 654;
-  hltdc.Init.AccumulatedActiveH = 485;
-  hltdc.Init.TotalWidth = 660;
-  hltdc.Init.TotalHeigh = 487;
+  hltdc.Init.HorizontalSync = 9;
+  hltdc.Init.VerticalSync = 1;
+  hltdc.Init.AccumulatedHBP = 29;
+  hltdc.Init.AccumulatedVBP = 3;
+  hltdc.Init.AccumulatedActiveW = 269;
+  hltdc.Init.AccumulatedActiveH = 323;
+  hltdc.Init.TotalWidth = 279;
+  hltdc.Init.TotalHeigh = 327;
   hltdc.Init.Backcolor.Blue = 0;
   hltdc.Init.Backcolor.Green = 0;
   hltdc.Init.Backcolor.Red = 0;
@@ -546,7 +569,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin : B1_USER_Pin */
   GPIO_InitStruct.Pin = B1_USER_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(B1_USER_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LED_GREEN_Pin LED_RED_Pin */

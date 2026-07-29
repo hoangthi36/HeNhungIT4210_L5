@@ -29,7 +29,7 @@ protected:
      * Member Declarations
      */
     touchgfx::Box __background;
-    touchgfx::GraphWrapAndClear<120> graphPpm;
+    touchgfx::GraphWrapAndClear<121> graphPpm;
     touchgfx::GraphElementLine graphPpmLine2;
     touchgfx::PainterRGB565 graphPpmLine2Painter;
     touchgfx::GraphElementLine graphPpmLine1;

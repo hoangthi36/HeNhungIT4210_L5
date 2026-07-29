@@ -15,7 +15,8 @@
 FrontendApplication::FrontendApplication(
     Model& m,
     FrontendHeap& heap)
-    : FrontendApplicationBase(m, heap)
+    : FrontendApplicationBase(m, heap),
+      customTransitionCallback()
 {
 }
 
@@ -32,6 +33,19 @@ gotoDashboardScreenNoTransition()
 void FrontendApplication::
 gotoGraphScreenNoTransition()
 {
+    customTransitionCallback =
+        touchgfx::Callback<FrontendApplication>(
+            this,
+            &FrontendApplication::
+                gotoGraphScreenNoTransitionImpl);
+
+    pendingScreenTransitionCallback =
+        &customTransitionCallback;
+}
+
+void FrontendApplication::
+gotoGraphScreenNoTransitionImpl()
+{
     touchgfx::makeTransition<
         GraphScreenView,
         GraphScreenPresenter,
@@ -46,6 +60,19 @@ gotoGraphScreenNoTransition()
 
 void FrontendApplication::
 gotoSettingsScreenNoTransition()
+{
+    customTransitionCallback =
+        touchgfx::Callback<FrontendApplication>(
+            this,
+            &FrontendApplication::
+                gotoSettingsScreenNoTransitionImpl);
+
+    pendingScreenTransitionCallback =
+        &customTransitionCallback;
+}
+
+void FrontendApplication::
+gotoSettingsScreenNoTransitionImpl()
 {
     touchgfx::makeTransition<
         SettingsScreenView,

@@ -5,7 +5,7 @@
 Project xây dựng một hệ thống nhúng giám sát khí gas theo thời gian thực, sử dụng:
 
 - **STM32F429ZIT6** làm bộ xử lý trung tâm.
-- **MQ-6** để thu tín hiệu tương ứng với LPG/propane/methane.
+- **MQ-6** để thu tín hiệu tương ứng với LPG.
 - **DS1307** để cung cấp thời gian thực.
 - **MFRC522 (RC522)** để xác thực trước khi thay đổi ngưỡng cảnh báo.
 - **TouchGFX** để hiển thị Dashboard, đồ thị và màn hình Settings.
@@ -28,7 +28,7 @@ Hệ thống đọc ADC bằng DMA, lọc trung bình nhiều mẫu, quy đổi 
 - Vẽ đồ thị nồng độ gas theo thời gian.
 - Cho phép cấu hình hai ngưỡng `T1`, `T2`.
 - Chỉ mở chức năng chỉnh ngưỡng sau khi xác thực thẻ RFID.
-- Điều hướng bằng giao diện cảm ứng và nút B1.
+- Điều hướng bằng nút B1.
 - Gửi dữ liệu định kỳ qua UART để kiểm tra bằng Hercules/Serial Terminal.
 
 Ngưỡng mặc định của project:
@@ -41,6 +41,10 @@ Ngưỡng mặc định của project:
 | Mặc định | `T1 = 1000`, `T2 = 2000` ppm | Chỉ là giá trị demo, cần hiệu chuẩn trước khi sử dụng thực tế |
 
 ---
+Quy trình : 
+MQ-6 (AO) → Cầu chia áp (Rtop/Rbottom) → ADCraw → VADC = ADCraw × VREF / 4095 → VAO = VADC × (Rtop + Rbottom) / Rbottom
+→ Rs = RL × (VC − VAO) / VAO → Ratio = Rs / R0 → PPM = 10^((log10(Ratio) − B) / M) → So sánh với T1 và T2
+→ Hiển thị An toàn / Cảnh báo / Nguy hiểm
 
 ## 3. Kiến trúc hệ thống
 ![Ảnh kiến trúc](anh_kien_truc.png)
@@ -74,7 +78,7 @@ TouchGFX sử dụng mô hình **Model–View–Presenter**. Phần đọc phầ
 | MQ-6 module | ADC | Cung cấp điện áp tỷ lệ với trạng thái khí gas |
 | DS1307 module | I2C | Ngày giờ và timestamp |
 | RC522 | SPI4 + CS/RST GPIO | Xác thực quyền sửa ngưỡng |
-| LCD/TouchGFX | LTDC/FMC/SDRAM theo board | Hiển thị giao diện |
+| LCD/TouchGFX | LTDC | Hiển thị giao diện |
 | UART trên kit | USART | Log dữ liệu và debug |
 | B1, LED trên kit | GPIO | Điều hướng/cảnh báo |
 
@@ -133,7 +137,7 @@ Trong lúc người dùng mở Settings hoặc quét RFID, backend vẫn phải 
 8. Quan sát Dashboard, đồ thị, RTC, RFID và dữ liệu UART.
 
 Luồng dữ liệu : 
-<img src="anh_luong_du_lieu.png" alt="Ảnh luồng dữ liệu">
+![Ảnh luồng dữ liệu](anh_luong_du_lieu.png)
 
 ---
 
@@ -229,8 +233,8 @@ MQ-6 yêu cầu thời gian tiền nung ban đầu dài; tài liệu Winsen nêu
 
 ## 11. Authors
 
-- `[Hoàng Văn Thi – 20239753]`
-- `[Cao Tiến Dũng – 20239754]`
-- `[Nguyễn Vũ Duy Anh – 20239755]`
-- `[Cao Tiến Dũng – 20239754]`
 - `[GVHD - Ths Nguyễn Đức Tiến]`
+- `[Hoàng Văn Thi – 20239753 - Tìm hiểu đề tài triển khai kiến trúc]`
+- `[Cao Tiến Dũng – 20239754 - Lắp mạch phần cứng ]`
+- `[Nguyễn Vũ Duy Anh – 20239755 - Triển khai phần đọc dữ liệu với ADC và DMA]`
+- `[Lê Thanh Hưng – 20235341 - Thiết kế giao diện]`

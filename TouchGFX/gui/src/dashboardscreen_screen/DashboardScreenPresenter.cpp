@@ -35,11 +35,16 @@ void DashboardScreenPresenter::onHardwareButton(
          * Giữ B1 khoảng 3 giây:
          * Dashboard → Settings.
          */
-        case APP_UI_EVENT_LONG_PRESS:
+        case APP_UI_EVENT_SETTINGS:
         {
             application->
                 gotoSettingsScreenNoTransition();
 
+            break;
+        }
+
+        case APP_UI_EVENT_CONFIRM:
+        {
             break;
         }
 

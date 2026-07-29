@@ -6,11 +6,14 @@
   <Texts>
     <TextGroup Id="Group1" />
     <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_BNAN" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">&lt;value&gt;</Translation>
+      </Text>
       <Text Id="__SingleUse_A0P6" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text&lt;value&gt;</Translation>
+        <Translation Language="GB">Status&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_A46C" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text&lt;value&gt;</Translation>
+        <Translation Language="GB">Status&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_L2IN" Alignment="Center" TypographyId="Default">
         <Translation Language="GB">Hủy</Translation>
@@ -25,39 +28,39 @@
         <Translation Language="GB">Chọn T1</Translation>
       </Text>
       <Text Id="__SingleUse_ESSS" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">1000&lt;value&gt;</Translation>
+        <Translation Language="GB">&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_9VYD" Alignment="Center" TypographyId="Default">
         <Translation Language="GB">1</Translation>
       </Text>
-      <Text Id="__SingleUse_KBGG" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">VUI LÒNG QUÉT THẺ&lt;value&gt;</Translation>
+      <Text Id="T_RfidStatus" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_3OZB" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">2000&lt;value&gt;</Translation>
+        <Translation Language="GB">&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_RRVY" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">SETTINGS</Translation>
       </Text>
       <Text Id="__SingleUse_3SYO" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text&lt;value&gt;</Translation>
+        <Translation Language="GB">Date&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_NSNH" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text&lt;value&gt;</Translation>
+        <Translation Language="GB">Time&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_DGZY" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text&lt;value&gt;</Translation>
+        <Translation Language="GB">Mq6&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_GRK7" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text&lt;value&gt;</Translation>
+        <Translation Language="GB">Adc&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_8HLL" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">New Text&lt;value&gt;</Translation>
+        <Translation Language="GB">Ppm&lt;value&gt;</Translation>
       </Text>
     </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WidgetWildcardCharacters="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .:/-_" />
     <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
     <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
   </Typographies>

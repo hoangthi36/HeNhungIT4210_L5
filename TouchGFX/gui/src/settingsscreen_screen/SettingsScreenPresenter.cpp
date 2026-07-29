@@ -30,9 +30,14 @@ void SettingsScreenPresenter::onAppDataUpdated(
 void SettingsScreenPresenter::onHardwareButton(
     AppUiEvent_t event)
 {
-    if (event == APP_UI_EVENT_SHORT_PRESS)
+    if (event == APP_UI_EVENT_SETTINGS)
     {
         closeSettings();
+    }
+    else if (event == APP_UI_EVENT_SHORT_PRESS ||
+             event == APP_UI_EVENT_CONFIRM)
+    {
+        view.handleHardwareButton(event);
     }
 }
 

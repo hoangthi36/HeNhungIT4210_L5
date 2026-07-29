@@ -9,5 +9,5 @@
 ../TouchGFX/gui/include/gui/graphscreen_screen/GraphScreenView.hpp:11:13:virtual GraphScreenView::~GraphScreenView()	1
 ../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:3:1:GraphScreenView::GraphScreenView()	1
 ../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:7:6:virtual void GraphScreenView::setupScreen()	1
-../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:12:6:virtual void GraphScreenView::tearDownScreen()	1
-../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:17:6:void GraphScreenView::updateGraph(const AppSnapshot_t&)	2
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:19:6:virtual void GraphScreenView::tearDownScreen()	1
+../TouchGFX/gui/src/graphscreen_screen/GraphScreenView.cpp:24:6:void GraphScreenView::updateGraph(const AppSnapshot_t&)	2

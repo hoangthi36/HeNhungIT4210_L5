@@ -25,7 +25,8 @@ extern "C"
     {
         APP_UI_EVENT_NONE = 0,
         APP_UI_EVENT_SHORT_PRESS,
-        APP_UI_EVENT_LONG_PRESS
+        APP_UI_EVENT_CONFIRM,
+        APP_UI_EVENT_SETTINGS
     } AppUiEvent_t;
 
     typedef struct

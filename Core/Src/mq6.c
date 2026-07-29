@@ -5,10 +5,13 @@
 
 /*
  * Mạch chia áp:
- * AO -- 15k -- ADC -- 27k -- GND
+ * AO -- 18k -- ADC -- 10k -- GND
+ *
+ * Rtop:  hai điện trở 9k mắc nối tiếp giữa AO và PA5.
+ * Rbottom: 9k + 1k mắc nối tiếp giữa PA5 và GND.
  */
-#define MQ6_R_TOP_OHM       15000.0f
-#define MQ6_R_BOTTOM_OHM    27000.0f
+#define MQ6_R_TOP_OHM       18000.0f
+#define MQ6_R_BOTTOM_OHM    10000.0f
 
 #define MQ6_ADC_VREF        3.3f
 #define MQ6_SENSOR_VCC      5.0f

@@ -11,9 +11,13 @@
 
 
 #define ADC_SAMPLE_COUNT 32U
+#define BUTTON_DEBOUNCE_MS 30U
+#define BUTTON_SHORT_MAX_MS 500U
+#define BUTTON_CONFIRM_MS 1500U
+#define BUTTON_SETTINGS_MS 3000U
 extern UART_HandleTypeDef huart1;
 
-static uint16_t adc_dma_buffer[ADC_SAMPLE_COUNT];
+static volatile uint16_t adc_dma_buffer[ADC_SAMPLE_COUNT];
 
 static AppSnapshot_t app_snapshot;
 static AppUiEvent_t pending_ui_event;
@@ -36,17 +40,6 @@ static char uart_buffer[160];
  * UID này chỉ là UID ví dụ.
  * Sau khi đọc được UID thật, bạn thay lại bốn byte này.
  */
-static const uint8_t admin_uid[] =
-{
-    0x12U,
-    0x34U,
-    0x56U,
-    0x78U
-};
-
-#define ADMIN_UID_SIZE \
-    ((uint8_t)sizeof(admin_uid))
-
 /*
  * Chu kỳ quét RC522.
  */
@@ -77,8 +70,6 @@ static void Button_Process(uint32_t now_ms)
     static uint32_t debounce_tick;
     static uint32_t press_tick;
 
-    static bool long_event_sent;
-
     const bool raw =
         HAL_GPIO_ReadPin(
             B1_USER_GPIO_Port,
@@ -89,7 +80,7 @@ static void Button_Process(uint32_t now_ms)
         debounce_tick = now_ms;
     }
 
-    if ((now_ms - debounce_tick) < 30U) {
+    if ((now_ms - debounce_tick) < BUTTON_DEBOUNCE_MS) {
         return;
     }
 
@@ -98,22 +89,20 @@ static void Button_Process(uint32_t now_ms)
 
         if (stable_state) {
             press_tick = now_ms;
-            long_event_sent = false;
         } else {
-            if (!long_event_sent) {
+            const uint32_t held_ms = now_ms - press_tick;
+
+            if (held_ms < BUTTON_SHORT_MAX_MS) {
                 pending_ui_event =
                     APP_UI_EVENT_SHORT_PRESS;
+            } else if (held_ms >= BUTTON_SETTINGS_MS) {
+                pending_ui_event =
+                    APP_UI_EVENT_SETTINGS;
+            } else if (held_ms >= BUTTON_CONFIRM_MS) {
+                pending_ui_event =
+                    APP_UI_EVENT_CONFIRM;
             }
         }
-    }
-
-    if (stable_state &&
-        !long_event_sent &&
-        (now_ms - press_tick >= 3000U)) {
-
-        long_event_sent = true;
-        pending_ui_event =
-            APP_UI_EVENT_LONG_PRESS;
     }
 }
 
@@ -129,7 +118,7 @@ static GasLevel_t GasLevel_Classify(
         return GAS_LEVEL_SAFE;
     }
 
-    if (ppm < app_snapshot.threshold_2) {
+    if (ppm <= app_snapshot.threshold_2) {
         return GAS_LEVEL_WARNING;
     }
 
@@ -393,7 +382,7 @@ static void UART_Process(void)
         (uint16_t)length);
 }
 
-static bool Rfid_IsAdminUid(
+static bool Rfid_IsAccepted(
     const MFRC522_Card_t *card)
 {
     if (card == NULL) {
@@ -404,14 +393,13 @@ static bool Rfid_IsAdminUid(
         return false;
     }
 
-    if (card->uid_size != ADMIN_UID_SIZE) {
+    if (card->uid_size == 0U ||
+        card->uid_size > MFRC522_MAX_UID_SIZE) {
         return false;
     }
 
-    return memcmp(
-        card->uid,
-        admin_uid,
-        ADMIN_UID_SIZE) == 0;
+    /* Tạm thời chấp nhận mọi UID đọc hợp lệ. */
+    return true;
 }
 
 static void Rfid_Process(uint32_t now_ms)
@@ -454,7 +442,7 @@ static void Rfid_Process(uint32_t now_ms)
         return;
     }
 
-    if (Rfid_IsAdminUid(&card)) {
+    if (Rfid_IsAccepted(&card)) {
         rfid_authorization_latched = true;
     }
 
@@ -514,6 +502,41 @@ void AppBackend_Init(void)
         ADC_SAMPLE_COUNT);
 
     /*
+     * DS1307 mới hoặc mất pin backup thường có CH=1 và chưa chạy.
+     * Chỉ ghi mốc mặc định khi dữ liệu trong RTC đang dừng/không hợp lệ.
+     * Các lần khởi động sau giữ nguyên thời gian đã có trong DS1307.
+     */
+    {
+        const DS1307_Time_t initial_time = {
+            .second = 0U,
+            .minute = 32U,
+            .hour = 9U,
+            .day_of_week = 1U,
+            .date = 27U,
+            .month = 7U,
+            .year = 26U
+        };
+        bool rtc_was_initialized = false;
+
+        if (DS1307_IsReady() &&
+            DS1307_InitializeIfNeeded(&initial_time, &rtc_was_initialized)) {
+            const char *rtc_message = rtc_was_initialized
+                ? "RTC INITIALIZED\r\n"
+                : "RTC TIME PRESERVED\r\n";
+            HAL_UART_Transmit(&huart1,
+                              (uint8_t *)rtc_message,
+                              strlen(rtc_message),
+                              100U);
+        } else {
+            const char rtc_message[] = "RTC INIT FAILED\r\n";
+            HAL_UART_Transmit(&huart1,
+                              (uint8_t *)rtc_message,
+                              sizeof(rtc_message) - 1U,
+                              100U);
+        }
+    }
+
+    /*
      * Đọc RTC lần đầu.
      */
     RTC_Process();
@@ -549,22 +572,24 @@ void AppBackend_Tick(uint32_t now_ms)
     Button_Process(now_ms);
 
     /*
-     * Đọc MQ6 và gửi UART mỗi 100 ms.
-     */
-    if ((uint32_t)(now_ms - sensor_tick) >= 100U) {
-        sensor_tick = now_ms;
-
-        Sensor_Process();
-        UART_Process();
-    }
-
-    /*
      * Đọc DS1307 mỗi 1000 ms.
      */
     if ((uint32_t)(now_ms - rtc_tick) >= 1000U) {
         rtc_tick = now_ms;
 
         RTC_Process();
+    }
+
+    /*
+     * Đọc MQ6 và gửi snapshot mới qua UART mỗi 100 ms.
+     * RTC được cập nhật trước để chuỗi UART tại mốc giây
+     * chứa thời gian mới nhất.
+     */
+    if ((uint32_t)(now_ms - sensor_tick) >= 100U) {
+        sensor_tick = now_ms;
+
+        Sensor_Process();
+        UART_Process();
     }
 
     /*

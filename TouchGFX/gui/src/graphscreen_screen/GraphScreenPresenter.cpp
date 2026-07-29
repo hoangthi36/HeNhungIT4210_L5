@@ -42,7 +42,7 @@ onHardwareButton(
             gotoDashboardScreenNoTransition();
     }
     else if (event ==
-             APP_UI_EVENT_LONG_PRESS)
+             APP_UI_EVENT_SETTINGS)
     {
         app->
             gotoSettingsScreenNoTransition();

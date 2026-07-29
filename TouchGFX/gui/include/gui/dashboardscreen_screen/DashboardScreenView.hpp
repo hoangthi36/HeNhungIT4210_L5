@@ -15,14 +15,6 @@ public:
 protected:
 private:
     /*
-     * Cập nhật vị trí thanh chỉ thị ppm.
-     */
-    void updatePpmIndicator(
-        uint16_t ppm,
-        uint16_t threshold1,
-        uint16_t threshold2);
-
-    /*
      * Cập nhật nội dung và màu trạng thái.
      */
     void updateGasStatus(

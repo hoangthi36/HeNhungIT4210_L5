@@ -7,12 +7,17 @@
           {
             "Type": "TextArea",
             "Name": "txtPpm",
-            "X": 114,
-            "Y": 48,
-            "Width": 92,
+            "X": 119,
+            "Y": 44,
+            "Width": 43,
             "Height": 24,
             "TextId": "__SingleUse_8HLL",
             "TextRotation": "0",
+            "Color": {
+              "Red": 222,
+              "Green": 62,
+              "Blue": 62
+            },
             "AutoSize": true,
             "Wildcard1": {}
           },
@@ -21,10 +26,15 @@
             "Name": "txtAdcVoltage",
             "X": 75,
             "Y": 91,
-            "Width": 92,
+            "Width": 36,
             "Height": 24,
             "TextId": "__SingleUse_GRK7",
             "TextRotation": "0",
+            "Color": {
+              "Red": 230,
+              "Green": 76,
+              "Blue": 76
+            },
             "AutoSize": true,
             "Wildcard1": {}
           },
@@ -37,35 +47,50 @@
             "Height": 23,
             "TextId": "__SingleUse_DGZY",
             "TextRotation": "0",
+            "Color": {
+              "Red": 227,
+              "Green": 82,
+              "Blue": 82
+            },
             "Wildcard1": {}
           },
           {
             "Type": "TextArea",
             "Name": "txtTime",
             "X": 198,
-            "Width": 92,
+            "Width": 48,
             "Height": 24,
             "TextId": "__SingleUse_NSNH",
             "TextRotation": "0",
+            "Color": {
+              "Red": 217,
+              "Green": 46,
+              "Blue": 46
+            },
             "AutoSize": true,
             "Wildcard1": {}
           },
           {
             "Type": "TextArea",
             "Name": "txtDate",
-            "Width": 92,
+            "Width": 47,
             "Height": 24,
             "TextId": "__SingleUse_3SYO",
             "TextRotation": "0",
+            "Color": {
+              "Red": 232,
+              "Green": 58,
+              "Blue": 58
+            },
             "AutoSize": true,
             "Wildcard1": {}
           },
           {
             "Type": "Box",
             "Name": "boxSafe",
-            "Y": 184,
-            "Width": 50,
-            "Height": 50,
+            "Y": 194,
+            "Width": 211,
+            "Height": 40,
             "Color": {
               "Red": 18,
               "Green": 204,
@@ -75,10 +100,9 @@
           {
             "Type": "Box",
             "Name": "boxWarning",
-            "X": 148,
-            "Y": 190,
-            "Width": 50,
-            "Height": 50,
+            "Y": 194,
+            "Width": 198,
+            "Height": 40,
             "Color": {
               "Red": 227,
               "Green": 97,
@@ -88,10 +112,9 @@
           {
             "Type": "Box",
             "Name": "boxDanger",
-            "X": 242,
-            "Y": 184,
-            "Width": 50,
-            "Height": 50,
+            "Y": 201,
+            "Width": 222,
+            "Height": 33,
             "Color": {
               "Red": 199,
               "Green": 10,
@@ -102,7 +125,7 @@
             "Type": "Box",
             "Name": "indicatorCurrent",
             "X": 64,
-            "Y": 190,
+            "Y": 184,
             "Width": 50,
             "Height": 50,
             "Color": {
@@ -116,10 +139,15 @@
             "Name": "txtStatus",
             "X": 75,
             "Y": 160,
-            "Width": 92,
+            "Width": 65,
             "Height": 24,
             "TextId": "__SingleUse_A0P6",
             "TextRotation": "0",
+            "Color": {
+              "Red": 224,
+              "Green": 25,
+              "Blue": 25
+            },
             "AutoSize": true,
             "Wildcard1": {}
           }
@@ -136,10 +164,10 @@
             "Width": 320,
             "Height": 240,
             "DataSeed": -714428425,
-            "NumberOfValues": 120,
+            "NumberOfValues": 121,
             "MaxY": 3000.0,
             "Precision": "1",
-            "LastIndex": 119,
+            "LastIndex": 120,
             "XAxisScale": 1.0,
             "InsertRandomValues": true,
             "GraphType": "GraphWrapClear",
@@ -189,7 +217,7 @@
             "Type": "Line",
             "Name": "lineThreshold2",
             "X": 14,
-            "Y": 142,
+            "Y": 143,
             "Width": 350,
             "Height": 50,
             "Color": {
@@ -219,17 +247,27 @@
             "Height": 24,
             "TextId": "__SingleUse_RRVY",
             "TextRotation": "0",
+            "Color": {
+              "Red": 178,
+              "Green": 74,
+              "Blue": 14
+            },
             "AutoSize": true
           },
           {
             "Type": "TextArea",
             "Name": "txtThreshold2",
-            "X": 13,
+            "X": 16,
             "Y": 88,
             "Width": 52,
             "Height": 24,
             "TextId": "__SingleUse_3OZB",
             "TextRotation": "0",
+            "Color": {
+              "Red": 232,
+              "Green": 49,
+              "Blue": 49
+            },
             "AutoSize": true,
             "Wildcard1": {}
           },
@@ -240,7 +278,7 @@
             "Y": 120,
             "Width": 212,
             "Height": 24,
-            "TextId": "__SingleUse_KBGG",
+            "TextId": "__SingleUse_BNAN",
             "TextRotation": "0",
             "Color": {
               "Red": 204,
@@ -677,7 +715,7 @@
             "Name": "btnBackspace",
             "X": 53,
             "Y": 216,
-            "Width": 22,
+            "Width": 63,
             "Height": 16,
             "ButtonTrigger": {
               "Type": "ClickButtonTrigger"
@@ -685,7 +723,7 @@
             "ButtonStyles": [
               {
                 "Type": "BoxWithBorderButtonStyle",
-                "Width": 22,
+                "Width": 63,
                 "Height": 16,
                 "LockToFlexButtonSize": true,
                 "BorderSize": 5,
@@ -770,6 +808,11 @@
             "Height": 24,
             "TextId": "__SingleUse_ESSS",
             "TextRotation": "0",
+            "Color": {
+              "Red": 232,
+              "Green": 16,
+              "Blue": 16
+            },
             "AutoSize": true,
             "Wildcard1": {}
           },
@@ -934,10 +977,15 @@
             "Name": "txtStatus",
             "X": 200,
             "Y": 165,
-            "Width": 92,
+            "Width": 65,
             "Height": 24,
             "TextId": "__SingleUse_A46C",
             "TextRotation": "0",
+            "Color": {
+              "Red": 50,
+              "Green": 148,
+              "Blue": 54
+            },
             "AutoSize": true,
             "Wildcard1": {}
           }

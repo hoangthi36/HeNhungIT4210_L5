@@ -7,6 +7,13 @@ GraphScreenView::GraphScreenView()
 void GraphScreenView::setupScreen()
 {
     GraphScreenViewBase::setupScreen();
+
+    /* Bỏ 120 điểm mẫu do Designer sinh, chỉ hiển thị PPM thật. */
+    graphPpm.clear();
+
+    /* Chừa mép dưới để PPM thấp vẫn nhìn thấy đường biểu diễn. */
+    graphPpm.setGraphAreaMargin(8, 8, 8, 14);
+    graphPpm.invalidate();
 }
 
 void GraphScreenView::tearDownScreen()
@@ -39,10 +46,10 @@ void GraphScreenView::updateGraph(
     // Cập nhật vị trí vạch ngưỡng
     //---------------------------------------------------
 
-    const int graphTop = graphPpm.getY();
+    const int graphTop = graphPpm.getY() + 8;
 
     const int graphHeight =
-        graphPpm.getHeight();
+        graphPpm.getHeight() - 8 - 14;
 
     const int graphMax = 3000;
 
@@ -58,9 +65,9 @@ void GraphScreenView::updateGraph(
         (snapshot.threshold_2 * graphHeight) /
         graphMax;
 
-    lineThreshold1.setY(yThreshold1);
+    lineThreshold1.setY(yThreshold1 - 5);
 
-    lineThreshold2.setY(yThreshold2);
+    lineThreshold2.setY(yThreshold2 - 5);
 
     lineThreshold1.invalidate();
 

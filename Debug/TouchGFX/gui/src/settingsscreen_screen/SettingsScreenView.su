@@ -1,35 +1,50 @@
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp:91:5:touchgfx::colortype::colortype(uint32_t)	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Drawable.hpp:356:18:virtual void touchgfx::Drawable::setWidth(int16_t)	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Drawable.hpp:368:18:virtual void touchgfx::Drawable::setHeight(int16_t)	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Drawable.hpp:515:10:void touchgfx::Drawable::setVisible(bool)	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Drawable.hpp:525:10:void touchgfx::Drawable::setTouchable(bool)	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:104:18:virtual void touchgfx::Screen::afterTransition()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:115:18:virtual void touchgfx::Screen::tearDownScreen()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:144:18:virtual void touchgfx::Screen::handleTickEvent()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:154:18:virtual void touchgfx::Screen::handleKeyEvent(uint8_t)	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp:48:18:virtual void touchgfx::TextArea::setWidth(int16_t)	40	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp:54:18:virtual void touchgfx::TextArea::setHeight(int16_t)	40	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp:79:10:void touchgfx::TextAreaWithOneWildcard::setWildcard1(const touchgfx::Unicode::UnicodeChar*)	16	static
 ../TouchGFX/gui/include/gui/settingsscreen_screen/SettingsScreenView.hpp:15:13:SettingsScreenView::~SettingsScreenView()	16	static
 ../TouchGFX/gui/include/gui/settingsscreen_screen/SettingsScreenView.hpp:15:13:virtual SettingsScreenView::~SettingsScreenView()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:6:1:SettingsScreenView::SettingsScreenView()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:16:6:virtual void SettingsScreenView::setupScreen()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:90:6:virtual void SettingsScreenView::tearDownScreen()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:106:6:void SettingsScreenView::updateData(const AppSnapshot_t&)	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:160:6:static void SettingsScreenView::formatFourDigits(touchgfx::Unicode::UnicodeChar*, uint16_t)	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:201:6:void SettingsScreenView::refreshThresholdDisplay()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:216:6:void SettingsScreenView::showStatus(const char*)	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:233:6:void SettingsScreenView::refreshSelectionDisplay()	120	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:304:6:void SettingsScreenView::setKeypadEnabled(bool)	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:368:6:void SettingsScreenView::appendDigit(uint8_t)	24	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:429:6:virtual void SettingsScreenView::btn0Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:434:6:virtual void SettingsScreenView::btn1Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:439:6:virtual void SettingsScreenView::btn2Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:444:6:virtual void SettingsScreenView::btn3Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:449:6:virtual void SettingsScreenView::btn4Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:454:6:virtual void SettingsScreenView::btn5Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:459:6:virtual void SettingsScreenView::btn6Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:464:6:virtual void SettingsScreenView::btn7Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:469:6:virtual void SettingsScreenView::btn8Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:474:6:virtual void SettingsScreenView::btn9Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:485:6:virtual void SettingsScreenView::btnClearClicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:511:6:virtual void SettingsScreenView::btnBackspaceClicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:547:6:virtual void SettingsScreenView::btnSelectT1Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:563:6:virtual void SettingsScreenView::btnSelectT2Clicked()	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:585:6:virtual void SettingsScreenView::btnSaveClicked()	24	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:638:6:virtual void SettingsScreenView::btnCancelClicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:31:1:SettingsScreenView::SettingsScreenView()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:46:6:virtual void SettingsScreenView::setupScreen()	88	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:85:6:virtual void SettingsScreenView::tearDownScreen()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:91:6:void SettingsScreenView::updateData(const AppSnapshot_t&)	56	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:136:6:void SettingsScreenView::handleHardwareButton(AppUiEvent_t)	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:166:6:void SettingsScreenView::selectThreshold(bool)	40	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:184:6:void SettingsScreenView::enterKeypad()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:195:6:void SettingsScreenView::activateMainItem()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:220:6:void SettingsScreenView::activateKeypadItem()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:242:6:void SettingsScreenView::refreshCursorDisplay()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:298:6:static void SettingsScreenView::formatFourDigits(touchgfx::Unicode::UnicodeChar*, uint16_t)	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:315:6:void SettingsScreenView::refreshThresholdDisplay()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:323:6:void SettingsScreenView::showStatus(const char*)	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:337:6:void SettingsScreenView::refreshSelectionDisplay()	56	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:351:6:void SettingsScreenView::setKeypadEnabled(bool)	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:369:6:void SettingsScreenView::setKeypadVisible(bool)	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:385:6:void SettingsScreenView::appendDigit(uint8_t)	24	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:415:6:virtual void SettingsScreenView::btn0Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:416:6:virtual void SettingsScreenView::btn1Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:417:6:virtual void SettingsScreenView::btn2Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:418:6:virtual void SettingsScreenView::btn3Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:419:6:virtual void SettingsScreenView::btn4Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:420:6:virtual void SettingsScreenView::btn5Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:421:6:virtual void SettingsScreenView::btn6Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:422:6:virtual void SettingsScreenView::btn7Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:423:6:virtual void SettingsScreenView::btn8Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:424:6:virtual void SettingsScreenView::btn9Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:426:6:virtual void SettingsScreenView::btnClearClicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:445:6:virtual void SettingsScreenView::btnBackspaceClicked()	24	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:460:6:virtual void SettingsScreenView::btnSelectT1Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:465:6:virtual void SettingsScreenView::btnSelectT2Clicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:470:6:virtual void SettingsScreenView::btnSaveClicked()	88	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:507:6:virtual void SettingsScreenView::btnCancelClicked()	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:9:6:void {anonymous}::setButtonSelected(ButtonType&, bool) [with ButtonType = touchgfx::TextButtonStyle<touchgfx::BoxWithBorderButtonStyle<touchgfx::ClickButtonTrigger> >]	88	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenView.cpp:9:6:void {anonymous}::setButtonSelected(ButtonType&, bool) [with ButtonType = touchgfx::BoxWithBorderButtonStyle<touchgfx::ClickButtonTrigger>]	88	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/containers/buttons/BoxWithBorderButtonStyle.hpp:94:10:void touchgfx::BoxWithBorderButtonStyle<T>::setBoxWithBorderColors(touchgfx::colortype, touchgfx::colortype, touchgfx::colortype, touchgfx::colortype) [with T = touchgfx::ClickButtonTrigger]	24	static

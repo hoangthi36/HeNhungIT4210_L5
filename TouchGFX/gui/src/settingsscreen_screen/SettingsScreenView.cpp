@@ -3,13 +3,43 @@
 #include <touchgfx/Color.hpp>
 #include <touchgfx/Unicode.hpp>
 
+namespace
+{
+template <typename ButtonType>
+void setButtonSelected(ButtonType& button, bool selected)
+{
+    const touchgfx::colortype normalBackground =
+        touchgfx::Color::getColorFromRGB(0, 102, 153);
+    const touchgfx::colortype pressedBackground =
+        touchgfx::Color::getColorFromRGB(0, 153, 204);
+    const touchgfx::colortype normalBorder = selected
+        ? touchgfx::Color::getColorFromRGB(255, 215, 0)
+        : touchgfx::Color::getColorFromRGB(0, 51, 102);
+    const touchgfx::colortype pressedBorder = selected
+        ? touchgfx::Color::getColorFromRGB(255, 255, 0)
+        : touchgfx::Color::getColorFromRGB(51, 102, 153);
+
+    button.setBoxWithBorderColors(
+        normalBackground,
+        pressedBackground,
+        normalBorder,
+        pressedBorder);
+    button.invalidate();
+}
+}
+
 SettingsScreenView::SettingsScreenView()
     : editThreshold1(1000U),
       editThreshold2(2000U),
+      uiMode(MODE_MAIN_MENU),
+      mainCursor(MAIN_SELECT_T1),
+      keypadCursor(KEY_1),
+      saveResultTick(0U),
       editingThreshold1(true),
       rfidAuthorized(false),
       snapshotInitialized(false),
-      messageIsError(false)
+      messageIsError(false),
+      replaceOnNextDigit(true)
 {
 }
 
@@ -17,144 +47,252 @@ void SettingsScreenView::setupScreen()
 {
     SettingsScreenViewBase::setupScreen();
 
-    /*
-     * =====================================================
-     * Liên kết TextArea với wildcard buffer
-     * =====================================================
-     *
-     * Ba TextArea trong Designer phải sử dụng
-     * Text Resource có wildcard:
-     *
-     * <*>
-     */
+    txtThreshold1.setWildcard1(txtThreshold1Buffer);
+    txtThreshold2.setWildcard1(txtThreshold2Buffer);
+    txtRfidStatus.setWildcard1(txtRfidStatusBuffer);
 
-    txtThreshold1.setWildcard1(
-        txtThreshold1Buffer);
+    txtThreshold1.setWidth(90);
+    txtThreshold1.setHeight(26);
+    txtThreshold2.setWidth(90);
+    txtThreshold2.setHeight(26);
+    txtRfidStatus.setWidth(300);
+    txtRfidStatus.setHeight(28);
 
-    txtThreshold2.setWildcard1(
-        txtThreshold2Buffer);
+    txtTitle.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    txtThreshold1.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    txtThreshold2.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    txtRfidStatus.setColor(touchgfx::Color::getColorFromRGB(255, 90, 90));
+    txtStatus.setVisible(false);
 
-    txtRfidStatus.setWildcard1(
-        txtRfidStatusBuffer);
-
-    /*
-     * =====================================================
-     * Khởi tạo trạng thái giao diện
-     * =====================================================
-     *
-     * Đây chỉ là giá trị tạm. updateData() sẽ đọc ngưỡng
-     * thật từ backend đúng một lần.
-     */
-
-    editThreshold1 = 1000U;
-    editThreshold2 = 2000U;
-
+    uiMode = MODE_MAIN_MENU;
+    mainCursor = MAIN_SELECT_T1;
+    keypadCursor = KEY_1;
+    saveResultTick = 0U;
     editingThreshold1 = true;
-
     rfidAuthorized = false;
     snapshotInitialized = false;
     messageIsError = false;
+    replaceOnNextDigit = true;
 
-    /*
-     * Hiển thị giá trị mặc định.
-     */
     refreshThresholdDisplay();
-
-    /*
-     * T1 đang được chọn mặc định, nhưng vì RFID chưa hợp lệ
-     * nên refreshSelectionDisplay() sẽ hiển thị yêu cầu
-     * quét thẻ.
-     */
-    refreshSelectionDisplay();
-
-    /*
-     * Khóa toàn bộ bàn phím và Save.
-     */
+    setKeypadVisible(false);
     setKeypadEnabled(false);
+    refreshCursorDisplay();
 
-    /*
-     * Thông báo ban đầu.
-     */
-    showStatus(
-        "VUI LONG QUET THE");
-
-    /*
-     * Báo backend rằng SettingsScreen đang hiển thị.
-     *
-     * Backend chỉ bắt đầu quét RC522 sau lệnh này.
-     */
-    presenter->setSettingsVisible(
-        true);
+    presenter->setSettingsVisible(true);
 }
 
 void SettingsScreenView::tearDownScreen()
 {
-    /*
-     * Báo backend rời khỏi SettingsScreen.
-     *
-     * Backend sẽ:
-     * - ngừng quét RC522;
-     * - xóa trạng thái xác thực RFID;
-     * - yêu cầu quét lại ở lần vào sau.
-     */
-    presenter->setSettingsVisible(
-        false);
-
+    presenter->setSettingsVisible(false);
     SettingsScreenViewBase::tearDownScreen();
 }
 
-void SettingsScreenView::updateData(
-    const AppSnapshot_t& snapshot)
+void SettingsScreenView::updateData(const AppSnapshot_t& snapshot)
 {
-    /*
-     * =====================================================
-     * Nhận ngưỡng backend đúng một lần
-     * =====================================================
-     *
-     * Không lấy lại mỗi frame vì sẽ ghi đè số người dùng
-     * đang nhập.
-     */
+    if (uiMode == MODE_SAVE_SUCCESS &&
+        (HAL_GetTick() - saveResultTick) >= 1500U)
+    {
+        presenter->closeSettings();
+        return;
+    }
 
     if (!snapshotInitialized)
     {
-        editThreshold1 =
-            snapshot.threshold_1;
-
-        editThreshold2 =
-            snapshot.threshold_2;
-
+        editThreshold1 = snapshot.threshold_1;
+        editThreshold2 = snapshot.threshold_2;
         snapshotInitialized = true;
-
         refreshThresholdDisplay();
     }
 
-    /*
-     * =====================================================
-     * Theo dõi trạng thái xác thực RFID
-     * =====================================================
-     */
-
-    if (rfidAuthorized !=
-        snapshot.rfid_authorized)
+    if (rfidAuthorized != snapshot.rfid_authorized)
     {
-        rfidAuthorized =
-            snapshot.rfid_authorized;
-
+        rfidAuthorized = snapshot.rfid_authorized;
         messageIsError = false;
-
-        setKeypadEnabled(
-            rfidAuthorized);
 
         if (rfidAuthorized)
         {
-            refreshSelectionDisplay();
+            txtRfidStatus.setColor(
+                touchgfx::Color::getColorFromRGB(40, 220, 80));
+
+            if (uiMode == MODE_WAITING_RFID)
+            {
+                enterKeypad();
+            }
+            else
+            {
+                refreshCursorDisplay();
+            }
         }
-        else
+        else if (uiMode == MODE_WAITING_RFID)
         {
-            showStatus(
-                "VUI LONG QUET THE");
+            txtRfidStatus.setColor(
+                touchgfx::Color::getColorFromRGB(255, 90, 90));
+            showStatus("VUI LONG QUET THE");
         }
     }
+}
+
+void SettingsScreenView::handleHardwareButton(AppUiEvent_t event)
+{
+    if (event == APP_UI_EVENT_SHORT_PRESS)
+    {
+        if (uiMode == MODE_MAIN_MENU)
+        {
+            mainCursor = static_cast<uint8_t>(
+                (mainCursor + 1U) % MAIN_ITEM_COUNT);
+            refreshCursorDisplay();
+        }
+        else if (uiMode == MODE_KEYPAD)
+        {
+            keypadCursor = static_cast<uint8_t>(
+                (keypadCursor + 1U) % KEY_ITEM_COUNT);
+            refreshCursorDisplay();
+        }
+    }
+    else if (event == APP_UI_EVENT_CONFIRM)
+    {
+        if (uiMode == MODE_MAIN_MENU)
+        {
+            activateMainItem();
+        }
+        else if (uiMode == MODE_KEYPAD)
+        {
+            activateKeypadItem();
+        }
+    }
+}
+
+void SettingsScreenView::selectThreshold(bool selectThreshold1)
+{
+    editingThreshold1 = selectThreshold1;
+    mainCursor = selectThreshold1 ? MAIN_SELECT_T1 : MAIN_SELECT_T2;
+    refreshSelectionDisplay();
+
+    if (rfidAuthorized)
+    {
+        enterKeypad();
+        return;
+    }
+
+    uiMode = MODE_WAITING_RFID;
+    txtRfidStatus.setColor(
+        touchgfx::Color::getColorFromRGB(255, 90, 90));
+    refreshCursorDisplay();
+}
+
+void SettingsScreenView::enterKeypad()
+{
+    uiMode = MODE_KEYPAD;
+    keypadCursor = KEY_1;
+    replaceOnNextDigit = true;
+    setKeypadVisible(true);
+    setKeypadEnabled(true);
+    refreshSelectionDisplay();
+    refreshCursorDisplay();
+}
+
+void SettingsScreenView::activateMainItem()
+{
+    switch (mainCursor)
+    {
+        case MAIN_SELECT_T1:
+            selectThreshold(true);
+            break;
+
+        case MAIN_SELECT_T2:
+            selectThreshold(false);
+            break;
+
+        case MAIN_SAVE:
+            showStatus("CHON T1 HOAC T2 TRUOC");
+            break;
+
+        case MAIN_CANCEL:
+            presenter->closeSettings();
+            break;
+
+        default:
+            break;
+    }
+}
+
+void SettingsScreenView::activateKeypadItem()
+{
+    switch (keypadCursor)
+    {
+        case KEY_1: btn1Clicked(); break;
+        case KEY_2: btn2Clicked(); break;
+        case KEY_3: btn3Clicked(); break;
+        case KEY_4: btn4Clicked(); break;
+        case KEY_5: btn5Clicked(); break;
+        case KEY_6: btn6Clicked(); break;
+        case KEY_7: btn7Clicked(); break;
+        case KEY_8: btn8Clicked(); break;
+        case KEY_9: btn9Clicked(); break;
+        case KEY_0: btn0Clicked(); break;
+        case KEY_CLEAR: btnClearClicked(); break;
+        case KEY_BACKSPACE: btnBackspaceClicked(); break;
+        case KEY_SAVE: btnSaveClicked(); break;
+        case KEY_CANCEL: btnCancelClicked(); break;
+        default: break;
+    }
+}
+
+void SettingsScreenView::refreshCursorDisplay()
+{
+    setButtonSelected(btnSelectT1,
+        uiMode != MODE_KEYPAD && mainCursor == MAIN_SELECT_T1);
+    setButtonSelected(btnSelectT2,
+        uiMode != MODE_KEYPAD && mainCursor == MAIN_SELECT_T2);
+    setButtonSelected(btnSave,
+        (uiMode == MODE_MAIN_MENU && mainCursor == MAIN_SAVE) ||
+        (uiMode == MODE_KEYPAD && keypadCursor == KEY_SAVE));
+    setButtonSelected(btnCancel,
+        (uiMode == MODE_MAIN_MENU && mainCursor == MAIN_CANCEL) ||
+        (uiMode == MODE_KEYPAD && keypadCursor == KEY_CANCEL));
+
+    setButtonSelected(btn1, uiMode == MODE_KEYPAD && keypadCursor == KEY_1);
+    setButtonSelected(btn2, uiMode == MODE_KEYPAD && keypadCursor == KEY_2);
+    setButtonSelected(btn3, uiMode == MODE_KEYPAD && keypadCursor == KEY_3);
+    setButtonSelected(btn4, uiMode == MODE_KEYPAD && keypadCursor == KEY_4);
+    setButtonSelected(btn5, uiMode == MODE_KEYPAD && keypadCursor == KEY_5);
+    setButtonSelected(btn6, uiMode == MODE_KEYPAD && keypadCursor == KEY_6);
+    setButtonSelected(btn7, uiMode == MODE_KEYPAD && keypadCursor == KEY_7);
+    setButtonSelected(btn8, uiMode == MODE_KEYPAD && keypadCursor == KEY_8);
+    setButtonSelected(btn9, uiMode == MODE_KEYPAD && keypadCursor == KEY_9);
+    setButtonSelected(btn0, uiMode == MODE_KEYPAD && keypadCursor == KEY_0);
+    setButtonSelected(btnClear,
+        uiMode == MODE_KEYPAD && keypadCursor == KEY_CLEAR);
+    setButtonSelected(btnBackspace,
+        uiMode == MODE_KEYPAD && keypadCursor == KEY_BACKSPACE);
+
+    if (uiMode == MODE_WAITING_RFID)
+    {
+        showStatus("VUI LONG QUET THE");
+        return;
+    }
+
+    if (uiMode == MODE_MAIN_MENU)
+    {
+        static const char* const labels[MAIN_ITEM_COUNT] =
+        {
+            "CHON T1 - GIU 1.5S",
+            "CHON T2 - GIU 1.5S",
+            "LUU - GIU 1.5S",
+            "HUY - GIU 1.5S"
+        };
+        showStatus(labels[mainCursor]);
+        return;
+    }
+
+    static const char* const keypadLabels[KEY_ITEM_COUNT] =
+    {
+        "PHIM 1", "PHIM 2", "PHIM 3", "PHIM 4", "PHIM 5",
+        "PHIM 6", "PHIM 7", "PHIM 8", "PHIM 9", "PHIM 0",
+        "XOA HET", "XOA 1 SO", "LUU", "HUY"
+    };
+    showStatus(keypadLabels[keypadCursor]);
 }
 
 void SettingsScreenView::formatFourDigits(
@@ -171,50 +309,18 @@ void SettingsScreenView::formatFourDigits(
         value = 9999U;
     }
 
-    buffer[0] =
-        static_cast<
-            touchgfx::Unicode::UnicodeChar>(
-                '0' +
-                ((value / 1000U) % 10U));
-
-    buffer[1] =
-        static_cast<
-            touchgfx::Unicode::UnicodeChar>(
-                '0' +
-                ((value / 100U) % 10U));
-
-    buffer[2] =
-        static_cast<
-            touchgfx::Unicode::UnicodeChar>(
-                '0' +
-                ((value / 10U) % 10U));
-
-    buffer[3] =
-        static_cast<
-            touchgfx::Unicode::UnicodeChar>(
-                '0' +
-                (value % 10U));
-
-    buffer[4] = 0;
+    touchgfx::Unicode::snprintf(buffer, 8U, "%u", value);
 }
 
-void SettingsScreenView::
-refreshThresholdDisplay()
+void SettingsScreenView::refreshThresholdDisplay()
 {
-    formatFourDigits(
-        txtThreshold1Buffer,
-        editThreshold1);
-
-    formatFourDigits(
-        txtThreshold2Buffer,
-        editThreshold2);
-
+    formatFourDigits(txtThreshold1Buffer, editThreshold1);
+    formatFourDigits(txtThreshold2Buffer, editThreshold2);
     txtThreshold1.invalidate();
     txtThreshold2.invalidate();
 }
 
-void SettingsScreenView::showStatus(
-    const char* text)
+void SettingsScreenView::showStatus(const char* text)
 {
     if (text == nullptr)
     {
@@ -222,91 +328,28 @@ void SettingsScreenView::showStatus(
     }
 
     touchgfx::Unicode::fromUTF8(
-        reinterpret_cast<const uint8_t*>(
-            text),
+        reinterpret_cast<const uint8_t*>(text),
         txtRfidStatusBuffer,
         TXTRFIDSTATUS_SIZE);
-
     txtRfidStatus.invalidate();
 }
 
-void SettingsScreenView::
-refreshSelectionDisplay()
+void SettingsScreenView::refreshSelectionDisplay()
 {
-    if (!rfidAuthorized)
-    {
-        /*
-         * Khi chưa được xác thực, đưa màu hai giá trị về
-         * trạng thái bình thường.
-         */
-        txtThreshold1.setColor(
-            touchgfx::Color::getColorFromRGB(
-                255U,
-                255U,
-                255U));
-
-        txtThreshold2.setColor(
-            touchgfx::Color::getColorFromRGB(
-                255U,
-                255U,
-                255U));
-
-        txtThreshold1.invalidate();
-        txtThreshold2.invalidate();
-
-        showStatus(
-            "VUI LONG QUET THE");
-
-        return;
-    }
-
-    messageIsError = false;
-
-    if (editingThreshold1)
-    {
-        showStatus(
-            "THE HOP LE - DANG NHAP T1");
-
-        txtThreshold1.setColor(
-            touchgfx::Color::getColorFromRGB(
-                0U,
-                120U,
-                255U));
-
-        txtThreshold2.setColor(
-            touchgfx::Color::getColorFromRGB(
-                255U,
-                255U,
-                255U));
-    }
-    else
-    {
-        showStatus(
-            "THE HOP LE - DANG NHAP T2");
-
-        txtThreshold1.setColor(
-            touchgfx::Color::getColorFromRGB(
-                255U,
-                255U,
-                255U));
-
-        txtThreshold2.setColor(
-            touchgfx::Color::getColorFromRGB(
-                0U,
-                120U,
-                255U));
-    }
-
+    txtThreshold1.setColor(touchgfx::Color::getColorFromRGB(
+        editingThreshold1 ? 0U : 255U,
+        editingThreshold1 ? 180U : 255U,
+        255U));
+    txtThreshold2.setColor(touchgfx::Color::getColorFromRGB(
+        editingThreshold1 ? 255U : 0U,
+        editingThreshold1 ? 255U : 180U,
+        255U));
     txtThreshold1.invalidate();
     txtThreshold2.invalidate();
 }
 
-void SettingsScreenView::setKeypadEnabled(
-    bool enabled)
+void SettingsScreenView::setKeypadEnabled(bool enabled)
 {
-    /*
-     * Phím số.
-     */
     btn0.setTouchable(enabled);
     btn1.setTouchable(enabled);
     btn2.setTouchable(enabled);
@@ -317,179 +360,73 @@ void SettingsScreenView::setKeypadEnabled(
     btn7.setTouchable(enabled);
     btn8.setTouchable(enabled);
     btn9.setTouchable(enabled);
-
-    /*
-     * Phím chỉnh sửa.
-     */
     btnClear.setTouchable(enabled);
     btnBackspace.setTouchable(enabled);
-
-    /*
-     * Chọn ngưỡng.
-     */
-    btnSelectT1.setTouchable(enabled);
-    btnSelectT2.setTouchable(enabled);
-
-    /*
-     * Save chỉ được sử dụng khi RFID hợp lệ.
-     */
     btnSave.setTouchable(enabled);
-
-    /*
-     * Cancel luôn hoạt động để người dùng có thể rời màn hình
-     * ngay cả khi chưa quét thẻ.
-     */
     btnCancel.setTouchable(true);
-
-    /*
-     * Vẽ lại các nút.
-     */
-    btn0.invalidate();
-    btn1.invalidate();
-    btn2.invalidate();
-    btn3.invalidate();
-    btn4.invalidate();
-    btn5.invalidate();
-    btn6.invalidate();
-    btn7.invalidate();
-    btn8.invalidate();
-    btn9.invalidate();
-
-    btnClear.invalidate();
-    btnBackspace.invalidate();
-
-    btnSelectT1.invalidate();
-    btnSelectT2.invalidate();
-
-    btnSave.invalidate();
-    btnCancel.invalidate();
 }
 
-void SettingsScreenView::appendDigit(
-    uint8_t digit)
+void SettingsScreenView::setKeypadVisible(bool visible)
 {
-    if (!rfidAuthorized)
-    {
-        showStatus(
-            "VUI LONG QUET THE");
+    btn0.setVisible(visible);
+    btn1.setVisible(visible);
+    btn2.setVisible(visible);
+    btn3.setVisible(visible);
+    btn4.setVisible(visible);
+    btn5.setVisible(visible);
+    btn6.setVisible(visible);
+    btn7.setVisible(visible);
+    btn8.setVisible(visible);
+    btn9.setVisible(visible);
+    btnClear.setVisible(visible);
+    btnBackspace.setVisible(visible);
+}
 
+void SettingsScreenView::appendDigit(uint8_t digit)
+{
+    if (!rfidAuthorized || digit > 9U)
+    {
         return;
     }
 
-    if (digit > 9U)
-    {
-        return;
-    }
+    uint16_t* value = editingThreshold1
+        ? &editThreshold1
+        : &editThreshold2;
 
-    uint16_t* currentValue = nullptr;
-
-    if (editingThreshold1)
+    uint32_t newValue = digit;
+    if (!replaceOnNextDigit)
     {
-        currentValue =
-            &editThreshold1;
+        newValue = static_cast<uint32_t>(*value) * 10U + digit;
     }
-    else
-    {
-        currentValue =
-            &editThreshold2;
-    }
-
-    const uint32_t newValue =
-        static_cast<uint32_t>(
-            *currentValue) *
-        10U +
-        digit;
 
     if (newValue > 9999U)
     {
         messageIsError = true;
-
-        showStatus(
-            "GIA TRI TOI DA LA 9999");
-
+        showStatus("GIA TRI TOI DA 9999");
         return;
     }
 
-    *currentValue =
-        static_cast<uint16_t>(
-            newValue);
-
+    *value = static_cast<uint16_t>(newValue);
+    replaceOnNextDigit = false;
     messageIsError = false;
-
     refreshThresholdDisplay();
-    refreshSelectionDisplay();
 }
 
-/*
- * =========================================================
- * Phím số
- * =========================================================
- */
+void SettingsScreenView::btn0Clicked() { appendDigit(0U); }
+void SettingsScreenView::btn1Clicked() { appendDigit(1U); }
+void SettingsScreenView::btn2Clicked() { appendDigit(2U); }
+void SettingsScreenView::btn3Clicked() { appendDigit(3U); }
+void SettingsScreenView::btn4Clicked() { appendDigit(4U); }
+void SettingsScreenView::btn5Clicked() { appendDigit(5U); }
+void SettingsScreenView::btn6Clicked() { appendDigit(6U); }
+void SettingsScreenView::btn7Clicked() { appendDigit(7U); }
+void SettingsScreenView::btn8Clicked() { appendDigit(8U); }
+void SettingsScreenView::btn9Clicked() { appendDigit(9U); }
 
-void SettingsScreenView::btn0Clicked()
-{
-    appendDigit(0U);
-}
-
-void SettingsScreenView::btn1Clicked()
-{
-    appendDigit(1U);
-}
-
-void SettingsScreenView::btn2Clicked()
-{
-    appendDigit(2U);
-}
-
-void SettingsScreenView::btn3Clicked()
-{
-    appendDigit(3U);
-}
-
-void SettingsScreenView::btn4Clicked()
-{
-    appendDigit(4U);
-}
-
-void SettingsScreenView::btn5Clicked()
-{
-    appendDigit(5U);
-}
-
-void SettingsScreenView::btn6Clicked()
-{
-    appendDigit(6U);
-}
-
-void SettingsScreenView::btn7Clicked()
-{
-    appendDigit(7U);
-}
-
-void SettingsScreenView::btn8Clicked()
-{
-    appendDigit(8U);
-}
-
-void SettingsScreenView::btn9Clicked()
-{
-    appendDigit(9U);
-}
-
-/*
- * =========================================================
- * Clear và Backspace
- * =========================================================
- */
-
-void SettingsScreenView::
-btnClearClicked()
+void SettingsScreenView::btnClearClicked()
 {
     if (!rfidAuthorized)
     {
-        showStatus(
-            "VUI LONG QUET THE");
-
         return;
     }
 
@@ -501,145 +438,73 @@ btnClearClicked()
     {
         editThreshold2 = 0U;
     }
-
-    messageIsError = false;
-
+    replaceOnNextDigit = false;
     refreshThresholdDisplay();
-    refreshSelectionDisplay();
 }
 
-void SettingsScreenView::
-btnBackspaceClicked()
+void SettingsScreenView::btnBackspaceClicked()
 {
     if (!rfidAuthorized)
     {
-        showStatus(
-            "VUI LONG QUET THE");
-
         return;
     }
 
-    if (editingThreshold1)
-    {
-        editThreshold1 =
-            static_cast<uint16_t>(
-                editThreshold1 / 10U);
-    }
-    else
-    {
-        editThreshold2 =
-            static_cast<uint16_t>(
-                editThreshold2 / 10U);
-    }
-
-    messageIsError = false;
-
+    uint16_t* value = editingThreshold1
+        ? &editThreshold1
+        : &editThreshold2;
+    *value = static_cast<uint16_t>(*value / 10U);
+    replaceOnNextDigit = false;
     refreshThresholdDisplay();
-    refreshSelectionDisplay();
 }
 
-/*
- * =========================================================
- * Chọn T1 hoặc T2
- * =========================================================
- */
+void SettingsScreenView::btnSelectT1Clicked()
+{
+    selectThreshold(true);
+}
 
-void SettingsScreenView::
-btnSelectT1Clicked()
+void SettingsScreenView::btnSelectT2Clicked()
+{
+    selectThreshold(false);
+}
+
+void SettingsScreenView::btnSaveClicked()
 {
     if (!rfidAuthorized)
     {
-        showStatus(
-            "VUI LONG QUET THE");
-
+        txtRfidStatus.setColor(
+            touchgfx::Color::getColorFromRGB(255, 90, 90));
+        showStatus("VUI LONG QUET THE");
         return;
     }
 
-    editingThreshold1 = true;
-
-    refreshSelectionDisplay();
-}
-
-void SettingsScreenView::
-btnSelectT2Clicked()
-{
-    if (!rfidAuthorized)
-    {
-        showStatus(
-            "VUI LONG QUET THE");
-
-        return;
-    }
-
-    editingThreshold1 = false;
-
-    refreshSelectionDisplay();
-}
-
-/*
- * =========================================================
- * Save và Cancel
- * =========================================================
- */
-
-void SettingsScreenView::
-btnSaveClicked()
-{
-    if (!rfidAuthorized)
-    {
-        showStatus(
-            "VUI LONG QUET THE");
-
-        return;
-    }
-
-    /*
-     * Điều kiện:
-     *
-     * 0 <= T1 < T2 <= 9999
-     *
-     * Hai biến là uint16_t nên không thể nhỏ hơn 0.
-     */
-    if (editThreshold1 >=
-        editThreshold2)
+    if (editThreshold1 >= editThreshold2)
     {
         messageIsError = true;
-
-        showStatus(
-            "LOI: T1 PHAI NHO HON T2");
-
+        txtRfidStatus.setColor(
+            touchgfx::Color::getColorFromRGB(255, 90, 90));
+        showStatus("LOI: T1 PHAI NHO HON T2");
         return;
     }
 
-    const bool result =
-        presenter->saveThreshold(
-            editThreshold1,
-            editThreshold2);
-
-    if (!result)
+    if (!presenter->saveThreshold(editThreshold1, editThreshold2))
     {
         messageIsError = true;
-
-        showStatus(
-            "LOI KHI LUU NGUONG");
-
+        txtRfidStatus.setColor(
+            touchgfx::Color::getColorFromRGB(255, 90, 90));
+        showStatus("LOI KHI LUU NGUONG");
         return;
     }
 
     messageIsError = false;
-
-    /*
-     * Backend đã lưu thành công.
-     * Trở về Dashboard.
-     */
-    presenter->closeSettings();
+    uiMode = MODE_SAVE_SUCCESS;
+    saveResultTick = HAL_GetTick();
+    setKeypadVisible(false);
+    txtRfidStatus.setColor(
+        touchgfx::Color::getColorFromRGB(40, 220, 80));
+    showStatus("LUU THANH CONG");
 }
 
-void SettingsScreenView::
-btnCancelClicked()
+void SettingsScreenView::btnCancelClicked()
 {
-    /*
-     * Không gửi giá trị đang chỉnh sửa xuống backend.
-     */
     presenter->closeSettings();
 }

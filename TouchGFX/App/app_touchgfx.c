@@ -71,10 +71,11 @@ void MX_TouchGFX_Process(void)
     touchgfx_taskEntry();
     
     /* USER CODE BEGIN MX_TouchGFX_Process */
-    
-    // Update model with sensor data every frame
-    touchgfx_model_tick();
-    
+    /*
+     * Model::tick() đã được gọi từ
+     * FrontendApplication::handleTickEvent() theo VSYNC.
+     * Không gọi handleTickEvent() thủ công lần thứ hai ở đây.
+     */
     /* USER CODE END MX_TouchGFX_Process */
 }
 

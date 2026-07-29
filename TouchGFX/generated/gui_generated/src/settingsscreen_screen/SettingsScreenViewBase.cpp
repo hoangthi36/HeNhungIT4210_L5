@@ -13,13 +13,13 @@ SettingsScreenViewBase::SettingsScreenViewBase() :
     add(__background);
 
     txtTitle.setXY(13, 11);
-    txtTitle.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtTitle.setColor(touchgfx::Color::getColorFromRGB(178, 74, 14));
     txtTitle.setLinespacing(0);
     txtTitle.setTypedText(touchgfx::TypedText(T___SINGLEUSE_RRVY));
     add(txtTitle);
 
-    txtThreshold2.setXY(13, 88);
-    txtThreshold2.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtThreshold2.setXY(16, 88);
+    txtThreshold2.setColor(touchgfx::Color::getColorFromRGB(232, 49, 49));
     txtThreshold2.setLinespacing(0);
     txtThreshold2.setTypedText(touchgfx::TypedText(T___SINGLEUSE_3OZB));
     add(txtThreshold2);
@@ -27,7 +27,7 @@ SettingsScreenViewBase::SettingsScreenViewBase() :
     txtRfidStatus.setXY(10, 120);
     txtRfidStatus.setColor(touchgfx::Color::getColorFromRGB(204, 35, 35));
     txtRfidStatus.setLinespacing(0);
-    txtRfidStatus.setTypedText(touchgfx::TypedText(T___SINGLEUSE_KBGG));
+    txtRfidStatus.setTypedText(touchgfx::TypedText(T___SINGLEUSE_BNAN));
     add(txtRfidStatus);
 
     btn1.setBoxWithBorderPosition(0, 0, 24, 25);
@@ -110,11 +110,11 @@ SettingsScreenViewBase::SettingsScreenViewBase() :
     btn9.setPosition(116, 186, 27, 31);
     add(btn9);
 
-    btnBackspace.setBoxWithBorderPosition(0, 0, 22, 16);
+    btnBackspace.setBoxWithBorderPosition(0, 0, 63, 16);
     btnBackspace.setBorderSize(5);
     btnBackspace.setBoxWithBorderColors(touchgfx::Color::getColorFromRGB(0, 102, 153), touchgfx::Color::getColorFromRGB(0, 153, 204), touchgfx::Color::getColorFromRGB(0, 51, 102), touchgfx::Color::getColorFromRGB(51, 102, 153));
     btnBackspace.setAction(flexButtonCallback);
-    btnBackspace.setPosition(53, 216, 22, 16);
+    btnBackspace.setPosition(53, 216, 63, 16);
     add(btnBackspace);
 
     btnSelectT1.setBoxWithBorderPosition(0, 0, 90, 28);
@@ -128,7 +128,7 @@ SettingsScreenViewBase::SettingsScreenViewBase() :
     add(btnSelectT1);
 
     txtThreshold1.setXY(15, 51);
-    txtThreshold1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtThreshold1.setColor(touchgfx::Color::getColorFromRGB(232, 16, 16));
     txtThreshold1.setLinespacing(0);
     txtThreshold1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_ESSS));
     add(txtThreshold1);
@@ -164,7 +164,7 @@ SettingsScreenViewBase::SettingsScreenViewBase() :
     add(btnCancel);
 
     txtStatus.setXY(200, 165);
-    txtStatus.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    txtStatus.setColor(touchgfx::Color::getColorFromRGB(50, 148, 54));
     txtStatus.setLinespacing(0);
     txtStatus.setTypedText(touchgfx::TypedText(T___SINGLEUSE_A46C));
     add(txtStatus);

@@ -22,5 +22,7 @@ typedef struct
 bool DS1307_IsReady(void);
 bool DS1307_ReadTime(DS1307_Time_t *time);
 bool DS1307_SetTime(const DS1307_Time_t *time);
+bool DS1307_InitializeIfNeeded(const DS1307_Time_t *initial_time,
+                              bool *was_initialized);
 
 #endif

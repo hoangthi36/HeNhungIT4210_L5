@@ -14,8 +14,6 @@ Model::Model() :
 
 void Model::tick()
 {
-    AppBackend_Tick(HAL_GetTick());
-
     AppSnapshot_t snapshot;
     AppBackend_GetSnapshot(&snapshot);
 

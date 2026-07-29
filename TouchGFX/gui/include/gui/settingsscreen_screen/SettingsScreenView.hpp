@@ -18,6 +18,9 @@ public:
     void updateData(
         const AppSnapshot_t& snapshot);
 
+    void handleHardwareButton(
+        AppUiEvent_t event);
+
     virtual void btn0Clicked() ;
     virtual void btn1Clicked() ;
     virtual void btn2Clicked() ;
@@ -40,20 +43,69 @@ public:
 
 protected:
 private:
+    enum UiMode
+    {
+        MODE_MAIN_MENU,
+        MODE_WAITING_RFID,
+        MODE_KEYPAD,
+        MODE_SAVE_SUCCESS
+    };
+
+    enum MainItem
+    {
+        MAIN_SELECT_T1 = 0,
+        MAIN_SELECT_T2,
+        MAIN_SAVE,
+        MAIN_CANCEL,
+        MAIN_ITEM_COUNT
+    };
+
+    enum KeypadItem
+    {
+        KEY_1 = 0,
+        KEY_2,
+        KEY_3,
+        KEY_4,
+        KEY_5,
+        KEY_6,
+        KEY_7,
+        KEY_8,
+        KEY_9,
+        KEY_0,
+        KEY_CLEAR,
+        KEY_BACKSPACE,
+        KEY_SAVE,
+        KEY_CANCEL,
+        KEY_ITEM_COUNT
+    };
+
     uint16_t editThreshold1;
     uint16_t editThreshold2;
+
+    UiMode uiMode;
+    uint8_t mainCursor;
+    uint8_t keypadCursor;
+    uint32_t saveResultTick;
 
     bool editingThreshold1;
     bool rfidAuthorized;
     bool snapshotInitialized;
     bool messageIsError;
+    bool replaceOnNextDigit;
 
     void appendDigit(uint8_t digit);
 
     void refreshThresholdDisplay();
     void refreshSelectionDisplay();
+    void refreshCursorDisplay();
 
     void setKeypadEnabled(bool enabled);
+    void setKeypadVisible(bool visible);
+
+    void selectThreshold(bool selectThreshold1);
+    void enterKeypad();
+    void activateMainItem();
+    void activateKeypadItem();
 
     void showStatus(const char* text);
 

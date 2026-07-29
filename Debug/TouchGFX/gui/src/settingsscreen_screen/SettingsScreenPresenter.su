@@ -13,8 +13,8 @@
 ../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:20:6:virtual void SettingsScreenPresenter::deactivate()	16	static
 ../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:24:6:virtual void SettingsScreenPresenter::onAppDataUpdated(const AppSnapshot_t&)	16	static
 ../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:30:6:virtual void SettingsScreenPresenter::onHardwareButton(AppUiEvent_t)	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:39:6:bool SettingsScreenPresenter::saveThreshold(uint16_t, uint16_t)	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:48:6:void SettingsScreenPresenter::setSettingsVisible(bool)	16	static
-../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:54:6:void SettingsScreenPresenter::closeSettings()	24	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:44:6:bool SettingsScreenPresenter::saveThreshold(uint16_t, uint16_t)	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:53:6:void SettingsScreenPresenter::setSettingsVisible(bool)	16	static
+../TouchGFX/gui/src/settingsscreen_screen/SettingsScreenPresenter.cpp:59:6:void SettingsScreenPresenter::closeSettings()	24	static
 ../TouchGFX/gui/include/gui/settingsscreen_screen/SettingsScreenPresenter.hpp:11:7:SettingsScreenPresenter::~SettingsScreenPresenter()	16	static
 ../TouchGFX/gui/include/gui/settingsscreen_screen/SettingsScreenPresenter.hpp:11:7:virtual SettingsScreenPresenter::~SettingsScreenPresenter()	16	static

@@ -1,0 +1,6 @@
+../Core/Src/lcd_ili9341.c:16:13:LCD_SPI_WriteByte	16	static
+../Core/Src/lcd_ili9341.c:22:13:LCD_WriteCommand	24	static
+../Core/Src/lcd_ili9341.c:34:13:LCD_WriteData	24	static
+../Core/Src/lcd_ili9341.c:46:13:LCD_WriteRegister	32	static
+../Core/Src/lcd_ili9341.c:65:13:LCD_SPI5_Init	48	static
+../Core/Src/lcd_ili9341.c:112:6:LCD_ILI9341_Init	8	static

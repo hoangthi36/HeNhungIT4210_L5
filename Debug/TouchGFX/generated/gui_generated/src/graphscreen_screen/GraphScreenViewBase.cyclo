@@ -150,20 +150,20 @@
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Box.hpp:29:7:virtual touchgfx::Box::~Box()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphWrapAndClear.hpp:31:7:touchgfx::GraphWrapAndClearData::~GraphWrapAndClearData()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphWrapAndClear.hpp:31:7:virtual touchgfx::GraphWrapAndClearData::~GraphWrapAndClearData()	1
-../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphWrapAndClear.hpp:66:7:touchgfx::GraphWrapAndClear<120>::~GraphWrapAndClear()	1
-../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphWrapAndClear.hpp:66:7:virtual touchgfx::GraphWrapAndClear<120>::~GraphWrapAndClear()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphWrapAndClear.hpp:66:7:touchgfx::GraphWrapAndClear<121>::~GraphWrapAndClear()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphWrapAndClear.hpp:66:7:virtual touchgfx::GraphWrapAndClear<121>::~GraphWrapAndClear()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphElements.hpp:790:7:touchgfx::GraphElementLine::~GraphElementLine()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphElements.hpp:790:7:virtual touchgfx::GraphElementLine::~GraphElementLine()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/PainterRGB565.hpp:34:7:touchgfx::PainterRGB565::~PainterRGB565()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/PainterRGB565.hpp:34:7:virtual touchgfx::PainterRGB565::~PainterRGB565()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/Line.hpp:50:7:touchgfx::Line::~Line()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/Line.hpp:50:7:virtual touchgfx::Line::~Line()	1
-../TouchGFX/generated/gui_generated/src/graphscreen_screen/GraphScreenViewBase.cpp:8:1:GraphScreenViewBase::GraphScreenViewBase()	121
-../TouchGFX/generated/gui_generated/src/graphscreen_screen/GraphScreenViewBase.cpp:173:1:GraphScreenViewBase::~GraphScreenViewBase()	1
-../TouchGFX/generated/gui_generated/src/graphscreen_screen/GraphScreenViewBase.cpp:173:1:virtual GraphScreenViewBase::~GraphScreenViewBase()	1
-../TouchGFX/generated/gui_generated/src/graphscreen_screen/GraphScreenViewBase.cpp:178:6:virtual void GraphScreenViewBase::setupScreen()	1
+../TouchGFX/generated/gui_generated/src/graphscreen_screen/GraphScreenViewBase.cpp:8:1:GraphScreenViewBase::GraphScreenViewBase()	122
+../TouchGFX/generated/gui_generated/src/graphscreen_screen/GraphScreenViewBase.cpp:174:1:GraphScreenViewBase::~GraphScreenViewBase()	1
+../TouchGFX/generated/gui_generated/src/graphscreen_screen/GraphScreenViewBase.cpp:174:1:virtual GraphScreenViewBase::~GraphScreenViewBase()	1
+../TouchGFX/generated/gui_generated/src/graphscreen_screen/GraphScreenViewBase.cpp:179:6:virtual void GraphScreenViewBase::setupScreen()	1
 ../Middlewares/ST/touchgfx/framework/include/mvp/View.hpp:39:5:touchgfx::View<T>::View() [with T = GraphScreenPresenter]	1
-../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphWrapAndClear.hpp:69:5:touchgfx::GraphWrapAndClear<CAPACITY>::GraphWrapAndClear() [with short int CAPACITY = 120]	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/graph/GraphWrapAndClear.hpp:69:5:touchgfx::GraphWrapAndClear<CAPACITY>::GraphWrapAndClear() [with short int CAPACITY = 121]	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/Line.hpp:95:10:void touchgfx::Line::setStart(T, T) [with T = float]	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/Line.hpp:171:10:void touchgfx::Line::setEnd(T, T) [with T = int]	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/canvas/Line.hpp:248:10:void touchgfx::Line::setLineWidth(T) [with T = float]	1

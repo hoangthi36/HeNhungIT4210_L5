@@ -45,6 +45,11 @@ public:
     void gotoSettingsScreenNoTransition();
 
 private:
+    touchgfx::Callback<FrontendApplication>
+        customTransitionCallback;
+
+    void gotoGraphScreenNoTransitionImpl();
+    void gotoSettingsScreenNoTransitionImpl();
 };
 
 #endif /* FRONTENDAPPLICATION_HPP */

@@ -41,6 +41,29 @@ void DashboardScreenView::setupScreen()
         txtStatusBuffer);
 
     /*
+     * Designer chỉ tự tính chiều rộng theo phần chữ tĩnh
+     * (Date, Time, Ppm, ...). Phần wildcard dài hơn sẽ bị
+     * cắt nếu không dành trước đủ vùng vẽ.
+     */
+    txtPpm.setWidth(190);
+    txtPpm.setHeight(26);
+
+    txtAdcVoltage.setWidth(220);
+    txtAdcVoltage.setHeight(26);
+
+    txtMq6Voltage.setWidth(220);
+    txtMq6Voltage.setHeight(26);
+
+    txtTime.setWidth(122);
+    txtTime.setHeight(26);
+
+    txtDate.setWidth(180);
+    txtDate.setHeight(26);
+
+    txtStatus.setWidth(235);
+    txtStatus.setHeight(26);
+
+    /*
      * =====================================================
      * Giá trị mặc định trước snapshot đầu tiên
      * =====================================================
@@ -90,15 +113,8 @@ void DashboardScreenView::setupScreen()
             120U,
             120U));
 
-    /*
-     * Đưa indicator về đầu thanh.
-     *
-     * Hàm này sẽ tự cập nhật lại khi snapshot đầu tiên tới.
-     */
-    updatePpmIndicator(
-        0U,
-        1000U,
-        2000U);
+    /* Indicator cũ không còn dùng trong giao diện mới. */
+    indicatorCurrent.setVisible(false);
 
     /*
      * Yêu cầu TouchGFX vẽ lại.
@@ -232,21 +248,19 @@ void DashboardScreenView::updateData(
     updateGasStatus(
         snapshot.gas_level);
 
-    /*
-     * =====================================================
-     * Vạch chỉ thị nồng độ ppm
-     * =====================================================
-     */
-
-    updatePpmIndicator(
-        snapshot.ppm,
-        snapshot.threshold_1,
-        snapshot.threshold_2);
 }
 
 void DashboardScreenView::updateGasStatus(
     GasLevel_t level)
 {
+    boxSafe.setVisible(level == GAS_LEVEL_SAFE);
+    boxWarning.setVisible(level == GAS_LEVEL_WARNING);
+    boxDanger.setVisible(level == GAS_LEVEL_DANGER);
+
+    boxSafe.invalidate();
+    boxWarning.invalidate();
+    boxDanger.invalidate();
+
     switch (level)
     {
         case GAS_LEVEL_SAFE:
@@ -316,168 +330,4 @@ void DashboardScreenView::updateGasStatus(
     }
 
     txtStatus.invalidate();
-}
-
-void DashboardScreenView::updatePpmIndicator(
-    uint16_t ppm,
-    uint16_t threshold1,
-    uint16_t threshold2)
-{
-    /*
-     * =====================================================
-     * Cấu hình thanh ppm
-     * =====================================================
-     *
-     * Các giá trị này phải khớp với vị trí thật trên
-     * TouchGFX Designer.
-     */
-
-    const int16_t barStartX = 20;
-    const int16_t barWidth = 200;
-
-    int32_t relativeX = 0;
-
-    /*
-     * Bảo vệ trong trường hợp ngưỡng backend không hợp lệ.
-     */
-    if (threshold1 >= threshold2)
-    {
-        threshold1 = 1000U;
-        threshold2 = 2000U;
-    }
-
-    /*
-     * =====================================================
-     * Vùng an toàn: 0 đến T1
-     * Chiếm 1/3 chiều rộng thanh
-     * =====================================================
-     */
-
-    if (ppm < threshold1)
-    {
-        if (threshold1 == 0U)
-        {
-            relativeX = 0;
-        }
-        else
-        {
-            relativeX =
-                static_cast<int32_t>(ppm) *
-                (barWidth / 3) /
-                threshold1;
-        }
-    }
-
-    /*
-     * =====================================================
-     * Vùng cảnh báo: T1 đến T2
-     * Chiếm 1/3 chiều rộng thanh
-     * =====================================================
-     */
-
-    else if (ppm < threshold2)
-    {
-        const uint16_t range =
-            threshold2 - threshold1;
-
-        const uint16_t value =
-            ppm - threshold1;
-
-        if (range == 0U)
-        {
-            relativeX = barWidth / 3;
-        }
-        else
-        {
-            relativeX =
-                (barWidth / 3) +
-                static_cast<int32_t>(value) *
-                (barWidth / 3) /
-                range;
-        }
-    }
-
-    /*
-     * =====================================================
-     * Vùng nguy hiểm: T2 đến 9999
-     * Chiếm 1/3 chiều rộng thanh
-     * =====================================================
-     */
-
-    else
-    {
-        const uint16_t maximumPpm = 9999U;
-
-        if (ppm > maximumPpm)
-        {
-            ppm = maximumPpm;
-        }
-
-        const uint16_t range =
-            maximumPpm - threshold2;
-
-        const uint16_t value =
-            ppm - threshold2;
-
-        if (range == 0U)
-        {
-            relativeX = barWidth;
-        }
-        else
-        {
-            relativeX =
-                (2 * barWidth / 3) +
-                static_cast<int32_t>(value) *
-                (barWidth / 3) /
-                range;
-        }
-    }
-
-    /*
-     * Giới hạn vị trí tương đối trong thanh.
-     */
-    if (relativeX < 0)
-    {
-        relativeX = 0;
-    }
-
-    if (relativeX > barWidth)
-    {
-        relativeX = barWidth;
-    }
-
-    /*
-     * Căn tâm indicator theo vị trí ppm.
-     */
-    int16_t indicatorX =
-        static_cast<int16_t>(
-            barStartX +
-            relativeX -
-            indicatorCurrent.getWidth() / 2);
-
-    const int16_t minimumX =
-        static_cast<int16_t>(
-            barStartX -
-            indicatorCurrent.getWidth() / 2);
-
-    const int16_t maximumX =
-        static_cast<int16_t>(
-            barStartX +
-            barWidth -
-            indicatorCurrent.getWidth() / 2);
-
-    if (indicatorX < minimumX)
-    {
-        indicatorX = minimumX;
-    }
-
-    if (indicatorX > maximumX)
-    {
-        indicatorX = maximumX;
-    }
-
-    indicatorCurrent.setX(
-        indicatorX);
-
-    indicatorCurrent.invalidate();
 }
